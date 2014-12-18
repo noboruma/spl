@@ -1,4 +1,6 @@
-include_HEADERS = 1DSignal.hh\
+SUBDIRS = .
+spldir=spl
+spl_HEADERS = 1DSignal.hh\
 									1DSignal.hxx\
 									2DSignal.hh\
 									2DSignal.hxx\
