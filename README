@@ -1,0 +1,9 @@
+=== HOW TO INSTALL ===
+
+run the following:
+./bootstrap.sh
+mkdir build
+cd build
+../configure --prefix=path/to/where/you/need/it
+make -j2 && make install
+
