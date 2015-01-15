@@ -7,6 +7,8 @@
 #include <cassert>
 #include <memory>
 #include <iomanip>
+#include <type_traits>
+#include <limits>
 
 /* **
  * This file is juste a set of convenient standard methods from std11 such
@@ -28,6 +30,19 @@ namespace std{
     return obj; 
   }
   const double PI = 3.14159265;
+
+  template<typename T>
+  bool is_signed_cast_safe(T a)
+  {
+    static_assert(std::numeric_limits<T>::is_modulo, "type must be 2 complement");
+    static_assert(!std::numeric_limits<T>::is_signed, "type must be unsigned");
+
+    typedef typename std::make_signed<T>::type signed_T;
+    typedef typename std::make_unsigned<T>::type unsigned_T;
+
+    return a < (unsigned_T) std::numeric_limits<signed_T>::max() ;
+    //&& a < (unsigned)std::numeric_limits<typename std::make_signed<T>::type>::max();
+  }
 
   template <bool B, typename T1, typename T2>
   struct IF;

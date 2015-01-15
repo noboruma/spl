@@ -38,6 +38,9 @@
 #define mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
 #define mute_(TplType, newValueType) spl::global::mute<TplType, traits_value_type_(TplType), newValueType>::res
 
+#define for_each_lin(sig,i)\
+    for(unsigned i=0; i < sig.length(); ++i)
+
 #define for_each_pixels(im, i, j)\
     for(unsigned j=0; j < im.domain()[1]; ++j)\
     for(unsigned i=0; i < im.domain()[0]; ++i)

@@ -19,4 +19,13 @@
       unsigned w = dom[0];
       _data = &parent::data()[0];
     }
+
+    // =====================================================================
+    template<typename V>
+    Signal1D<V>::Signal1D(const Signal1D<V> &sig)
+    : parent(sig)
+    {
+      _data = &parent::data()[0];
+    }
+
   }//!spl

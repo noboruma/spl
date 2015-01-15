@@ -19,4 +19,7 @@ namespace spl{
 
 #define __spl_impl(fct) this->exact().fct##_impl
 
+#define for_un(i,beg,end)\
+  for(unsigned i=beg; i < end; ++i)
+
 # endif

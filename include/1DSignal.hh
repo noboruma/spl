@@ -38,6 +38,7 @@ namespace spl{
 
     Signal1D(unsigned w);
     Signal1D(Domain<1> dom);
+    Signal1D(const spl::Signal1D<V> &sig);
 
 
     V& operator()(unsigned x) 
@@ -63,6 +64,16 @@ namespace spl{
     const unsigned length() const 
     {
       return parent::_domain[0];
+    }
+
+    explicit operator V* ()
+    {
+      return _data;
+    }
+
+    explicit operator const V* () const
+    {
+      return _data;
     }
 
 
