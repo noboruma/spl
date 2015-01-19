@@ -136,4 +136,72 @@
                              (long)_res(x_shift, y_shift) * wbr)/sqr;
         }
       }
-  }//!spl
+  namespace ct{
+
+    // =========================================================================
+    template<typename V, unsigned L>
+    inline V BilinearInterpolation<V,L>::operator()(unsigned x, unsigned y)
+    {
+      assert(std::is_signed_cast_safe(x));
+      assert(std::is_signed_cast_safe(y));
+
+      double x1 = ::floor(x/(L+1));
+      double y1 = ::floor(y/(L+1));
+      double x2 = x1+1;
+      double y2 = y1+1;
+
+      double f11 = _sig(x1, y1);
+      double f12 = _sig(x1, y2);
+      double f21 = _sig(x2, y1);
+      double f22 = _sig(x2, y2);
+
+      x1 *= (L+1);
+      y1 *= (L+1);
+      x2 *= (L+1);
+      y2 *= (L+1);
+
+      double res = ((double)f11*(x2 - x) * (y2 - y)
+                    + f21*(x - x1) * (y2 - y)  
+                    + f12*(x2 - x) * (y - y1) 
+                    + f22*(x - x1) * (y - y1) );
+      res /= ((x2-x1)*(y2-y1));
+
+      assert(std::is_cast_lossless<V>(res));
+
+      return std::round(res);
+    }
+  } // !ct
+  namespace rt{
+    template<typename V>
+    inline V BilinearInterpolation<V>::operator()(unsigned x, unsigned y)
+    {
+      assert(std::is_signed_cast_safe(x));
+      assert(std::is_signed_cast_safe(y));
+
+      double x1 = ::floor(x/(L+1));
+      double y1 = ::floor(y/(L+1));
+      double x2 = x1+1;
+      double y2 = y1+1;
+
+      double f11 = _sig(x1, y1);
+      double f12 = _sig(x1, y2);
+      double f21 = _sig(x2, y1);
+      double f22 = _sig(x2, y2);
+
+      x1 *= (L+1);
+      y1 *= (L+1);
+      x2 *= (L+1);
+      y2 *= (L+1);
+
+      double res = ((double)f11*(x2 - x) * (y2 - y)
+                    + f21*(x - x1) * (y2 - y)  
+                    + f12*(x2 - x) * (y - y1) 
+                    + f22*(x - x1) * (y - y1) );
+      res /= ((x2-x1)*(y2-y1));
+
+      assert(std::is_cast_lossless<V>(res));
+
+      return std::round(res);
+    }
+  }//!rt
+}//!spl

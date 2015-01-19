@@ -94,8 +94,7 @@
     };
 
     template<typename V>
-    struct SubPixelShift{
-    };
+    struct SubPixelShift{};
     
     template<typename V>
     struct SubPixelShift<Signal2D<V> >
@@ -116,6 +115,56 @@
       const Signal2D<V> &_sig;
       Signal2D<V> _res;
     };
+
+
+
+    namespace ct
+    {
+      template<typename V, unsigned L>
+      struct BilinearInterpolation
+      {
+        const Signal2D<V>& _sig;
+        BilinearInterpolation(const Signal2D<V>& sig)
+        : _sig(sig)
+        {}
+        inline V operator()(unsigned x, unsigned y);
+      };
+    }//!ct
+    namespace rt
+    {
+      template<typename V>
+      struct BilinearInterpolation
+      {
+        const Signal2D<V>& _sig;
+        const unsigned L;
+        BilinearInterpolation(const Signal2D<V>& sig, unsigned L_)
+        : _sig(sig)
+        , L(L_)
+        {}
+        inline V operator()(unsigned x, unsigned y);
+      };
+    }//!rt
+
+    template<typename V, unsigned L=0>
+    struct BilinearInterpolation : public ct::BilinearInterpolation<V,L>
+    {
+      typedef ct::BilinearInterpolation<V,L> parent;
+      //using  ct::BilinearInterpolation<V,L>::ct::BilinearInterpolation<V,L>; // C++11 gcc v4.8 only...
+      BilinearInterpolation(const Signal2D<V>&sig)
+      : parent(sig)
+      {}
+    };
+
+    template<typename V>
+    struct BilinearInterpolation<V,0> : public rt::BilinearInterpolation<V>
+    {
+      typedef rt::BilinearInterpolation<V> parent;
+      //using parent::parent; // Gcc 4.8 only
+      BilinearInterpolation(const Signal2D<V>&sig, unsigned L_)
+      : parent(sig, L_)
+      {}
+    };
+
   }//!spl
 
 #include "SignalUtils.hxx"

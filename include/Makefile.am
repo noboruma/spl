@@ -29,4 +29,5 @@ spl_HEADERS = 1DSignal.hh\
 									Upsampler.hh\
 									Filter.hh\
 									MedianFilter.hh\
+									Downsampler.hh\
 									utils.hh
