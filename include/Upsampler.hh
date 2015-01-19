@@ -14,12 +14,13 @@
       : _sig(sig)
       {}
 
-      V operator()(unsigned x, unsigned y)
+      inline V operator()(unsigned x, unsigned y)
       {
         assert(std::is_signed_cast_safe(x));
         assert(std::is_signed_cast_safe(y));
-        double x1 = x/(L+2);
-        double y1 = y/(L+2);
+
+        double x1 = ::floor(x/(L+1));
+        double y1 = ::floor(y/(L+1));
         double x2 = x1+1;
         double y2 = y1+1;
 
@@ -33,11 +34,14 @@
         x2 *= (L+1);
         y2 *= (L+1);
 
-        double res = /*(double)((1/((x2-x1)*(y2-y1))) */ (f11*(x2 - x)*(y2 - y)
-                                               + f21*(x - x1)*(y2 - y)  
-                                               + f12*(x2 - x)*(y - y1) 
-                                               + f22*(x - x1)*(y - y1) );
+        double res = ((double)f11*(x2 - x) * (y2 - y)
+                      + f21*(x - x1) * (y2 - y)  
+                      + f12*(x2 - x) * (y - y1) 
+                      + f22*(x - x1) * (y - y1) );
         res /= ((x2-x1)*(y2-y1));
+
+        assert(std::is_cast_lossless<V>(res));
+
         return std::round(res);
       }
 
@@ -64,8 +68,6 @@
       void operator()()
       {
         interpolation<V,L> op_int(_sig);
-        traits_iterator_type(Signal2D<V>) it((*_up_sig).domain());
-        for_each_elements(it)
         for_each_inner_pixels((*_up_sig), x, y, 1)
          (*_up_sig)(x,y) = op_int(x,y);
       }
@@ -94,6 +96,7 @@
         const std::vector<Signal2D<V> > signal = 
         static_cast<std::vector<Signal2D<V> > >(_sig);
 
+        #pragma omp parallel for
         for(unsigned i=0; i < (*_up_sig).domain()[2]; ++i)
         {
           Up2DSampler<V,interpolation,L> s(signal[i]);
@@ -102,7 +105,6 @@
           for_each_pixels(res,x,y)
             (*_up_sig)(x,y,i) = res(x,y);
         }
-        std::cerr<<"Done "<<signal.size()<<std::endl;
       }
     };
 

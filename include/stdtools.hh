@@ -44,6 +44,18 @@ namespace std{
     //&& a < (unsigned)std::numeric_limits<typename std::make_signed<T>::type>::max();
   }
 
+  template<typename C, typename T>
+  bool is_cast_lossless(T a)
+  {
+    if(std::numeric_limits<C>::digits >= std::numeric_limits<T>::digits)
+      return true;
+
+    static_assert(std::numeric_limits<C>::is_modulo, "type must be 2 complement");
+
+    return a <= static_cast<T>(std::numeric_limits<C>::max()) && 
+           a >= static_cast<T>(std::numeric_limits<C>::min());
+  }
+
   template <bool B, typename T1, typename T2>
   struct IF;
   template <typename T1, typename T2>
