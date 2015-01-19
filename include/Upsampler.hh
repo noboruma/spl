@@ -16,6 +16,8 @@
 
       V operator()(unsigned x, unsigned y)
       {
+        assert(std::is_signed_cast_safe(x));
+        assert(std::is_signed_cast_safe(y));
         double x1 = x/(L+2);
         double y1 = y/(L+2);
         double x2 = x1+1;
@@ -64,7 +66,8 @@
         interpolation<V,L> op_int(_sig);
         traits_iterator_type(Signal2D<V>) it((*_up_sig).domain());
         for_each_elements(it)
-         (*_up_sig)[it] = op_int(it[0],it[1]);
+        for_each_inner_pixels((*_up_sig), x, y, 1)
+         (*_up_sig)(x,y) = op_int(x,y);
       }
     };
 
@@ -83,21 +86,22 @@
         traits_domain_type(Signal3D<V>) dom(_sig.domain());
         for(unsigned i=0; i < traits_domain_dim(Signal2D<V>); ++i)
           dom[i] += L*(dom[i]-1);
-        _up_sig = new Signal3D<V>(dom);
+        _up_sig.reset(new Signal3D<V>(dom));
       }
 
       void operator()()
       {
-        const std::vector<Signal2D<V> > &signal = static_cast<std::vector<Signal2D<V> > >(_sig);
+        const std::vector<Signal2D<V> > signal = 
+        static_cast<std::vector<Signal2D<V> > >(_sig);
 
-        /*for(unsigned i=0; i < (*_up_sig).domain()[2]; ++i)
+        for(unsigned i=0; i < (*_up_sig).domain()[2]; ++i)
         {
           Up2DSampler<V,interpolation,L> s(signal[i]);
           s();
           const Signal2D<V> &res = s.res();
           for_each_pixels(res,x,y)
             (*_up_sig)(x,y,i) = res(x,y);
-        }*/
+        }
         std::cerr<<"Done "<<signal.size()<<std::endl;
       }
     };
