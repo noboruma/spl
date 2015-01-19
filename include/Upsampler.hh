@@ -35,22 +35,27 @@
       template<typename V, template<typename V, unsigned L> class interpolation>
       struct Up2DSampler
       {
-        const Signal2D<V>& _sig;      const unsigned L;
-
-        std::unique_ptr<Signal2D<V> > _up_sig;
         const Signal2D<V>& res(){ return (*_up_sig); }
         Up2DSampler(const Signal2D<V>& sig, unsigned L_);
         void operator()();
+
+        protected:
+        const Signal2D<V>& _sig;
+        std::unique_ptr<Signal2D<V> > _up_sig;
+        const unsigned L;
       };
 
       template<typename V, template<typename V, unsigned L> class interpolation>
       struct Up2DSequenceSampler
       {
-        const Signal3D<V> &_sig;      const unsigned L;
-        std::unique_ptr<Signal3D<V> > _up_sig;
         const Signal3D<V> &res(){ return (*_up_sig); }
         Up2DSequenceSampler(const Signal3D<V>& sig, unsigned L_);
         void operator()();
+
+        protected:
+        const Signal3D<V> &_sig;      
+        std::unique_ptr<Signal3D<V> > _up_sig;
+        const unsigned L;
       };
     }//!rt
     
@@ -79,6 +84,7 @@
       Up2DSequenceSampler(const Signal3D<V>& sig)
       : parent(sig) {}
     };
+
     template<typename V, template<typename V, unsigned L> class interpolation>
     struct Up2DSequenceSampler<V, interpolation, 0> : rt::Up2DSequenceSampler<V,interpolation>
     {
