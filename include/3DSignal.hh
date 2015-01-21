@@ -68,6 +68,14 @@ namespace spl{
 
     operator const std::vector<V**>() const;
 
+    Signal3D clone_impl() const
+    {
+      Signal3D ret(this->domain());
+      for_each_voxels_par(ret, x, y, z)
+        ret(x, y, z) = (*this)(x, y, z);
+      return ret;
+    }
+
     private:
     V ***_data;
   };

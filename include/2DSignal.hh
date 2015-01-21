@@ -65,6 +65,14 @@ namespace spl{
       return _data[p._y][p._x];
     }
 
+    Signal2D clone_impl() const
+    {
+      Signal2D ret(this->domain());
+      for_each_pixels_par(ret, x, y)
+        ret(x,y) = (*this)(x,y);
+      return ret;
+    }
+
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
 

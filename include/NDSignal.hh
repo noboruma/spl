@@ -119,6 +119,11 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       inline const traits_domain_type(E)& domain() {return _domain;}
       inline const traits_domain_type(E)& domain() const {return _domain;}
 
+      inline E clone() const
+      {
+        return __spl_impl(clone)();
+      }
+
       protected:
 
       traits_value_type(E) *data() 

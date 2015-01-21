@@ -76,6 +76,14 @@ namespace spl{
       return _data;
     }
 
+    Signal1D clone_impl() const
+    {
+      Signal1D ret(this->domain());
+      for_each_lin(ret, x)
+        ret(x) = (*this)(x);
+      return ret;
+    }
+
 
     private:
     V *_data;
