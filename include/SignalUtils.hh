@@ -165,6 +165,38 @@
       {}
     };
 
+    template<typename PointType, typename DomainType>
+    PointType unscale_point(PointType pos,
+                            DomainType scaledDomain,
+                            DomainType unScaledDomain,
+                            PointType org = PointType(),
+                            DomainType scaledBorderOffset = DomainType(),
+                            PointType zoomPoint = PointType())
+    {
+#ifdef DEBUG
+      for(unsigned i=0; i < DomainType::dim; ++i)
+      {
+        assert(scaledDomain[i] >= 0);
+        assert(unScaledDomain[i] >= 0);
+        assert(scaledBorderOffset[i] >= 0);
+      }
+#endif
+      double ratios[DomainType::dim];
+      for(unsigned i=0; i < DomainType::dim; ++i)
+        ratios[i] = (double)unScaledDomain[i]/(double)(scaledDomain[i] - scaledBorderOffset[i]*2);
+
+      PointType offseted_p = pos - org;
+
+      for(unsigned i=0; i < DomainType::dim; ++i)
+      {
+        offseted_p[i] = std::round((double)offseted_p[i]-scaledBorderOffset[i])*ratios[i];
+        offseted_p[i] = std::min(offseted_p[i], unScaledDomain[i]);
+        offseted_p[i] = std::max(offseted_p[i], 0);
+      }
+
+      return offseted_p + zoomPoint;
+    }
+
   }//!spl
 
 #include "SignalUtils.hxx"
