@@ -20,6 +20,7 @@ namespace spl{
         typedef Point2D point_type;
         typedef Domain<2> domain_type;
         typedef Signal1D<V> sub_type;
+        typedef Signal2D<V> concrete_type;
       };
 
     template<typename oldType, typename newVal>
@@ -89,6 +90,14 @@ namespace spl{
     operator const V*() const
     {
       return _data[0];
+    }
+
+    const Signal2D<double> div_comp_wise_impl(const Signal2D<V> &b)
+    {
+      Signal2D<double> res(this->domain());
+      for_each_pixels_par(*this,x,y)
+        res(x,y) = (*this)(x,y) / b(x,y);
+      return res;
     }
 
     private:

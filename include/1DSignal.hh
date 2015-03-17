@@ -18,6 +18,7 @@ namespace spl{
         typedef Point1D point_type;
         typedef Domain<1> domain_type;
         typedef V sub_type;
+        typedef Signal1D<V> concrete_type;
       };
 
     template<typename oldType, typename newVal>

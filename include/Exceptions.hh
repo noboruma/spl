@@ -9,6 +9,11 @@
 #define throw_runtime(msg) \
     throw except::runtime_exception(msg ,__FILE__,__LINE__)
 
+// TODO: 
+//Qt has caught an exception thrown from an event handler. Throwing
+//exceptions from an event handler is not supported in Qt. You must
+//reimplement QApplication::notify() and catch all exceptions there.
+// 
 namespace except
 {
 

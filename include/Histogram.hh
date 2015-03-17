@@ -6,7 +6,7 @@
 #include "2DSignal.hh"
 
   namespace spl{
-    template<typename S, const unsigned max =std::numeric_limits<traits_value_type(S)>::max(), const unsigned min = -std::numeric_limits<traits_value_type(S)>::min() >
+    template<typename S>
     struct Histogram
     {
       Histogram(const S &sig)
@@ -15,23 +15,27 @@
 
       void operator()()
       {
-        /*if (std::numeric_limits<traits_value_type(S)>::is_signed
-          &&  !std::numeric_limits<traits_value_type(S)>::is_integer)
-          {
-          std::cerr<<"unspported"<<std::endl;
-          return;
-          }*/
-        _res.resize(max + min + 1, 0);
-
         traits_iterator_type(S) it(_sig.domain());
         for_each_elements(it)
-        ++_res[_sig[it]];
+        {
+          auto bin = std::find(_bins.begin(), _bins.end(), _sig[it]);
+          if(bin != _bins.end())
+            ++_res[bin];
+          else
+          {
+            bins.push_back(_sig[it]);
+            _res.push_back(1);
+          }
+        }
       }
 
       std::vector<unsigned> &res(){return _res;}
+      std::vector<traits_value_type(S)> &bins(){return _bins;}
 
       private:
       const S &_sig;
+
+      std::vector<traits_value_type(S)> _bins;
       std::vector<unsigned> _res;
 
     };

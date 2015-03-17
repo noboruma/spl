@@ -3,6 +3,9 @@
 
 #include "Point.hh"
 #include "NDSignal.hh"
+#include "1DSignal.hh"
+#include "2DSignal.hh"
+#include "3DSignal.hh"
 #include "Exceptions.hh"
 
   namespace spl{
@@ -19,7 +22,7 @@
         typedef traits_point_type(S) point_type;
         typedef traits_domain_type(S) domain_type;
         typedef traits_sub_type(S) sub_type;
-        typedef S concrete_type;
+        typedef traits_concrete_type(S) concrete_type;
       };
 
       template<typename oldType, typename newVal>
@@ -52,7 +55,7 @@
       inline const traits_point_type(S)& fromBoundPoint() const {return _from;}
       inline const traits_point_type(S)& toBoundPoint()   const {return _to;}
 
-      S clone() const;
+      traits_concrete_type(S) clone_impl() const;
 
       void operator=(const BoundMorpher<S> &m);
 
@@ -66,6 +69,7 @@
             _to[i] = _to[i] + translation[i];
           }
       }
+
 
       const S& src() const { return *_src; }
 

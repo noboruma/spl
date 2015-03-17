@@ -35,6 +35,7 @@
 
 #define traits_domain_dim(E) spl::global::traits<E>::domain_type::dim
 
+#define traits_mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
 #define mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
 #define mute_(TplType, newValueType) spl::global::mute<TplType, traits_value_type_(TplType), newValueType>::res
 
@@ -119,7 +120,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       inline const traits_domain_type(E)& domain() {return _domain;}
       inline const traits_domain_type(E)& domain() const {return _domain;}
 
-      inline E clone() const
+      inline traits_concrete_type(E) clone() const
       {
         return __spl_impl(clone)();
       }
@@ -133,6 +134,11 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       traits_value_type(E) *data() const
       {
         return reinterpret_cast<traits_value_type(E)*>(_contiguous_data.get());
+      }
+
+      inline const mute(traits_concrete_type(E),double) operator/ (const traits_concrete_type(E) &b)
+      {
+        return __spl_impl(div_comp_wise)(b);
       }
 
       protected:

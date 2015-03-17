@@ -18,6 +18,7 @@ namespace spl{
         typedef Point3D point_type;
         typedef Domain<3> domain_type;
         typedef Signal2D<V>  sub_type;
+        typedef Signal3D<V>  concrete_type;
       };
     template<typename oldType, typename newVal>
       struct mute<Signal3D<oldType>,oldType,newVal>
@@ -74,6 +75,14 @@ namespace spl{
       for_each_voxels_par(ret, x, y, z)
         ret(x, y, z) = (*this)(x, y, z);
       return ret;
+    }
+
+    const Signal3D<double> div_comp_wise_impl(const Signal3D<V> &b)
+    {
+      Signal3D<double> res(this->domain());
+      for_each_voxels_par(*this,x,y,z)
+        res(x,y,z) = (*this)(x,y,z) / b(x,y,z);
+      return res;
     }
 
     private:
