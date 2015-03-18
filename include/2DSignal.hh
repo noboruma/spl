@@ -56,6 +56,7 @@ namespace spl{
       return at_impl(traits_point_type(Signal2D<V>)(x,y));
     }
 
+    private:
     V& at_impl(const traits_point_type(Signal2D<V>)& p)
     {
       return _data[p._y][p._x];
@@ -74,6 +75,7 @@ namespace spl{
       return ret;
     }
 
+    public:
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
 
@@ -92,16 +94,20 @@ namespace spl{
       return _data[0];
     }
 
-    const Signal2D<double> div_comp_wise_impl(const Signal2D<V> &b)
+    private:
+    const Signal2D<double> div_comp_wise_impl(const Signal2D<V> &b) const
     {
       Signal2D<double> res(this->domain());
-      for_each_pixels_par(*this,x,y)
+      for_each_pixels_par((*this),x,y)
         res(x,y) = (*this)(x,y) / b(x,y);
       return res;
     }
 
     private:
     V **_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }
 

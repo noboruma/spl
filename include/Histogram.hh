@@ -20,10 +20,10 @@
         {
           auto bin = std::find(_bins.begin(), _bins.end(), _sig[it]);
           if(bin != _bins.end())
-            ++_res[bin];
+            ++(_res[std::distance(_bins.begin(),bin)]);
           else
           {
-            bins.push_back(_sig[it]);
+            _bins.push_back(_sig[it]);
             _res.push_back(1);
           }
         }

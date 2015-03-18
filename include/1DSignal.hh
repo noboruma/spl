@@ -52,6 +52,8 @@ namespace spl{
       return at_impl(traits_point_type(Signal1D<V>)(x));
     }
 
+    private:
+
     V& at_impl(const traits_point_type(Signal1D<V>)& p)
     {
       return _data[p._x];
@@ -61,6 +63,8 @@ namespace spl{
     {
       return _data[p._x];
     }
+
+    public:
 
     const unsigned length() const 
     {

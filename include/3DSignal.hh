@@ -47,6 +47,7 @@ namespace spl{
       return at_impl(traits_point_type(Signal3D<V>)(x,y,z));
     }
 
+    private:
     inline V &at_impl(const traits_point_type(Signal3D<V>)& p)
     {
       return _data[p._z][p._y][p._x];
@@ -56,6 +57,7 @@ namespace spl{
       return _data[p._z][p._y][p._x];
     }
 
+    public:
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
     const unsigned depth() const {return parent::_domain[2];}
@@ -69,6 +71,7 @@ namespace spl{
 
     operator const std::vector<V**>() const;
 
+    private:
     Signal3D clone_impl() const
     {
       Signal3D ret(this->domain());
@@ -77,16 +80,19 @@ namespace spl{
       return ret;
     }
 
-    const Signal3D<double> div_comp_wise_impl(const Signal3D<V> &b)
+    const Signal3D<double> div_comp_wise_impl(const Signal3D<V> &b) const
     {
       Signal3D<double> res(this->domain());
-      for_each_voxels_par(*this,x,y,z)
+      for_each_voxels_par((*this),x,y,z)
         res(x,y,z) = (*this)(x,y,z) / b(x,y,z);
       return res;
     }
 
     private:
     V ***_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }//!spl
 

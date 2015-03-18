@@ -125,6 +125,11 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
         return __spl_impl(clone)();
       }
 
+      inline const mute(traits_concrete_type(E),double) operator/ (const traits_concrete_type(E) &b) const
+      {
+        return __spl_impl(div_comp_wise)(b);
+      }
+
       protected:
 
       traits_value_type(E) *data() 
@@ -134,11 +139,6 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       traits_value_type(E) *data() const
       {
         return reinterpret_cast<traits_value_type(E)*>(_contiguous_data.get());
-      }
-
-      inline const mute(traits_concrete_type(E),double) operator/ (const traits_concrete_type(E) &b)
-      {
-        return __spl_impl(div_comp_wise)(b);
       }
 
       protected:
