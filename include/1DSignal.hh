@@ -92,6 +92,9 @@ namespace spl{
 
     private:
     V *_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }//!spl
 
