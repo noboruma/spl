@@ -4,6 +4,7 @@
 # include "NDSignal.hh"
 # include "Point.hh"
 #include "2DSignal.hh"
+#include <iostream>
 
 namespace spl{
   template<typename V>
@@ -35,6 +36,7 @@ namespace spl{
 
     Signal3D(unsigned w, unsigned h, unsigned d);
     Signal3D(Domain<3> dom);
+    Signal3D(const Signal3D<V>& s);
 
     ~Signal3D();
 
@@ -58,6 +60,19 @@ namespace spl{
     }
 
     public:
+    void operator=(const Signal3D<V>& p)
+    {
+      unsigned h= p.domain()[1];
+      unsigned d= p.domain()[2];
+      _data = new V** [d];
+      for(unsigned z=0; z < d; ++z)
+      {
+        _data[z] = new V*[h]; 
+        for(unsigned y=0; y < h; ++y)
+          _data[z][y] = p._data[z][y];
+      }
+      parent::operator=(p);
+    }
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
     const unsigned depth() const {return parent::_domain[2];}
@@ -72,7 +87,7 @@ namespace spl{
     operator const std::vector<V**>() const;
 
     private:
-    Signal3D clone_impl() const
+    inline Signal3D clone_impl() const
     {
       Signal3D ret(this->domain());
       for_each_voxels_par(ret, x, y, z)
@@ -83,8 +98,9 @@ namespace spl{
     const Signal3D<double> div_comp_wise_impl(const Signal3D<V> &b) const
     {
       Signal3D<double> res(this->domain());
+      // TODO: Add cast secure
       for_each_voxels_par((*this),x,y,z)
-        res(x,y,z) = (*this)(x,y,z) / b(x,y,z);
+        res(x,y,z) = (double)(*this)(x,y,z) / (double)b(x,y,z);
       return res;
     }
 

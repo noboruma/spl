@@ -93,10 +93,8 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       template<typename V>
       NDSignal(const NDSignal<V> &p)
       : _domain(p._domain)
-      , _contiguous_data(nullptr)
-      {
-        _contiguous_data = p._contiguous_data;
-      }
+      , _contiguous_data(p._contiguous_data)
+      {}
 
       void operator=(const NDSignal<E> &p)
       {

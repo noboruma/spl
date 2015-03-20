@@ -99,7 +99,8 @@ namespace spl{
     {
       Signal2D<double> res(this->domain());
       for_each_pixels_par((*this),x,y)
-        res(x,y) = (*this)(x,y) / b(x,y);
+      //TODO: Add cast check
+        res(x,y) = (double)(*this)(x,y) / (double)b(x,y);
       return res;
     }
 

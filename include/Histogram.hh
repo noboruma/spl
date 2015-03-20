@@ -3,6 +3,7 @@
 
 #include <limits>
 #include <vector>
+#include <unordered_map>
 #include "2DSignal.hh"
 
   namespace spl{
@@ -17,26 +18,14 @@
       {
         traits_iterator_type(S) it(_sig.domain());
         for_each_elements(it)
-        {
-          auto bin = std::find(_bins.begin(), _bins.end(), _sig[it]);
-          if(bin != _bins.end())
-            ++(_res[std::distance(_bins.begin(),bin)]);
-          else
-          {
-            _bins.push_back(_sig[it]);
-            _res.push_back(1);
-          }
-        }
+          ++_res[_sig[it]];
       }
 
-      std::vector<unsigned> &res(){return _res;}
-      std::vector<traits_value_type(S)> &bins(){return _bins;}
+      std::unordered_map<traits_value_type(S), unsigned> _res;
+      decltype(_res) &res(){return _res;}
 
       private:
       const S &_sig;
-
-      std::vector<traits_value_type(S)> _bins;
-      std::vector<unsigned> _res;
 
     };
   }//!spl
