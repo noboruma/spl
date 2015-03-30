@@ -91,7 +91,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
        * Weak copy
        */
       template<typename V>
-      NDSignal(const NDSignal<V> &p)
+      explicit NDSignal(const NDSignal<V> &p)
       : _domain(p._domain)
       , _contiguous_data(p._contiguous_data)
       {}

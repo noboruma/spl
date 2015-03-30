@@ -15,6 +15,7 @@
 
 
       E operator+(const E &p) const;
+      E& operator+=(const E &p);
       E operator-(const E &p) const;
 
       void operator=(const E &p);
