@@ -20,6 +20,7 @@
       E& operator-=(const E &p);
 
       void operator=(const E &p);
+      bool operator==(const E &p) const;
 
       protected:
       unsigned _coords[dim];
