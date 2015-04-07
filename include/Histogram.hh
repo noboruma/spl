@@ -1,7 +1,6 @@
 # ifndef SPL_SPL_HISTOGRAM_HH
 # define SPL_SPL_HISTOGRAM_HH
 
-#include <limits>
 #include <vector>
 #include <unordered_map>
 #include "2DSignal.hh"

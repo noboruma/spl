@@ -56,6 +56,16 @@ namespace spl{
       return at_impl(traits_point_type(Signal2D<V>)(x,y));
     }
 
+    void operator=(const Signal2D<V>& p)
+    {
+      unsigned h= p.domain()[1];
+      _data = new V* [h];
+      for(unsigned y=0; y < h; ++y)
+        _data[y] = &parent::data()[y*w];
+      parent::operator=(p);
+    }
+
+
     private:
     V& at_impl(const traits_point_type(Signal2D<V>)& p)
     {
