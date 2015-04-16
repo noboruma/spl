@@ -16,6 +16,7 @@
  */
 
 namespace std{
+
   template< typename T >
   inline T convert(const std::string& str)
   {

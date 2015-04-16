@@ -61,7 +61,7 @@ namespace spl{
       unsigned h= p.domain()[1];
       _data = new V* [h];
       for(unsigned y=0; y < h; ++y)
-        _data[y] = &parent::data()[y*w];
+        _data[y] = &parent::data()[y*h];
       parent::operator=(p);
     }
 
