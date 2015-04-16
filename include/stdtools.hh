@@ -15,7 +15,11 @@
  * as smart pointer and other stuff.
  */
 
-namespace std{
+#define sign_form(T) typename std::make_signed<T>::type
+#define sign_form_(T) std::make_signed<T>::type
+
+namespace std
+{
 
   template< typename T >
   inline T convert(const std::string& str)
