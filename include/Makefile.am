@@ -27,7 +27,6 @@ spl_HEADERS = 1DSignal.hh\
 									SignalUtils.hxx\
 									stdtools.hh\
 									Upsampler.hh\
-									Upsampler.hxx\
 									Filter.hh\
 									MedianFilter.hh\
 									Downsampler.hh\
