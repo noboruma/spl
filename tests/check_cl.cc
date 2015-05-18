@@ -4,6 +4,7 @@
 // vim: set foldenable :
 
 #include "cl/2DSignal.hh"
+#include "cl/ExternalProcess.hh"
 #include <iostream>
 #include <assert.h>
 #include <fstream>
@@ -96,6 +97,40 @@ int main()
       assert(ss(x,y) == 9);
       std::cout<<ss(x,y)<<std::endl;
     }
+  }
+
+  // External Process
+  {
+//{{{
+    std::vector<::cl::Platform> all_platforms;
+    ::cl::Platform::get(&all_platforms);
+    if(all_platforms.size()==0)
+    {
+      std::cout<<" No platforms found. Check OpenCL installation!\n";
+      assert(false);
+    }
+    ::cl::Platform default_platform=all_platforms[0];
+    std::cout << "Using platform: "<<default_platform.getInfo<CL_PLATFORM_NAME>()<<"\n";
+
+    //get default device of the default platform
+    std::vector<::cl::Device> all_devices;
+    default_platform.getDevices(CL_DEVICE_TYPE_ALL, &all_devices);
+    if(all_devices.size()==0)
+    {
+      std::cout<<" No devices found. Check OpenCL installation!\n";
+      assert(false);
+    }
+    ::cl::Device default_device=all_devices[0];
+    std::cout<< "Using device: "<<default_device.getInfo<CL_DEVICE_NAME>()<<"\n";
+//}}}
+  
+
+    std::ifstream f("kernels/set210.cl");
+    std::string kernel((std::istreambuf_iterator<char>(f)),
+                       std::istreambuf_iterator<char>());
+    f.close();
+    spl::Signal2D<float> ss(10,1);
+    spl::cl::ExternalProcess<spl::Signal2D<float>> ep(default_device,kernel,ss);
   }
 
 }

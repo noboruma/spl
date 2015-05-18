@@ -12,10 +12,23 @@ namespace spl
     , _data_size(data_size)
     {}
 
+    void variadic_enqueue()
+    {
+    }
+    template<typename t, typename... Args>
+    void variadic_enqueue(t e, Args... args)
+    {
+
+      std::cout<<e<<std::endl;
+      //queue.enqueuewritebuffer(e,cl_true,0,sizeof(v)*e.size(),e);
+      variadic_enqueue(args...);
+    }
+
     template<typename V>
     void CLSignal<V>::convolution(const std::string &kernel, std::vector<std::vector<V> > &buffers)
     {
       std::vector<::cl::Buffer> cl_buffers;
+      variadic_enqueue(1,2, 2.,3);
 
       for(auto& buffer : buffers)
         cl_buffers.push_back({_context, CL_MEM_READ_ONLY, sizeof(V)*buffer.size()});
@@ -63,6 +76,7 @@ namespace spl
                               sizeof(V)*_data_size,
                               _rdata);
     }
+
 
     template<typename V>
     template<typename ... Args>
