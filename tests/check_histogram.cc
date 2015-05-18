@@ -20,7 +20,7 @@ int main()
   for_each_pixels(test, x, y)
     test(x,y) = arr_test[y][x];
 
-  spl::Histogram<spl::Signal2D<value_type>, 9, 0 > h(test);
+  spl::Histogram<spl::Signal2D<value_type>> h(test);
 
   h();
 
