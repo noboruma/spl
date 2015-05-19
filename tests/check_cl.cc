@@ -131,6 +131,15 @@ int main()
     f.close();
     spl::Signal2D<float> ss(10,1);
     spl::cl::ExternalProcess<spl::Signal2D<float>> ep(default_device,kernel,ss);
+    ep.push();
+    ep(::cl::NDRange(10,1));
+    ep.pull();
+
+    for_each_pixels(std::get<0>(ep._inputs),x,y)
+    {
+      assert(ss(x,y) == 10);
+      std::cout<<ss(x,y)<<std::endl;
+    }
   }
 
 }
