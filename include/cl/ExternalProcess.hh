@@ -12,12 +12,19 @@
 #include "metatools.hh"
 #include "../NDSignal.hh"
 #include "CL/cl.hpp"
+#include <iostream>
 
 
 namespace spl 
 {
   namespace cl 
   {
+    enum class Access
+    {
+      READ,
+      WRITE,
+      READ_WRITE
+    };
     
     template<typename ... SignalTypes>
     struct ExternalProcess
@@ -25,10 +32,11 @@ namespace spl
       // =====================================================================
       ExternalProcess(::cl::Device device,
                       const std::string &sources,
-                      SignalTypes... sigs)
+                      SignalTypes... sigs,
+                      std::array<Access, sizeof...(SignalTypes)> access)
       : _device(device)
-      , _context({device})
-      , _inputs({sigs...})
+      , _context{device}
+      , _inputs{sigs...}
       , _queue(_context,_device)
       {
 
@@ -39,20 +47,37 @@ namespace spl
                                  _program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(_device)+
                                  "\n");
 
-        spl::ct::if_apply_for<std::is_const>([=](unsigned i, auto s)
-                                             {
-                                             typedef typename std::remove_reference<decltype(s)> SignalType;
-                                             _cl_buffers[i] = ::cl::Buffer(_context,
-                                                                           CL_MEM_READ_WRITE,
-                                                                           sizeof(traits_value_type(decltype(s)))*s.domain().prod());
-                                             },
-                                             [=](unsigned i, auto s)
-                                             {
-                                             _cl_buffers[i] = ::cl::Buffer(_context,
-                                                                           CL_MEM_READ_WRITE,
-                                                                           sizeof(traits_value_type(decltype(s)))*s.domain().prod());
-                                             },
-                                             sigs...);
+        //spl::ct::if_apply_for<std::is_const>([=](unsigned i, auto &s)
+        //                                     {
+        //                                     typedef typename std::decay_t<decltype(s)> SignalType;
+        //                                     _cl_buffers[i] = ::cl::Buffer(_context,
+        //                                                                   CL_MEM_READ_ONLY,
+        //                                                                   sizeof(traits_value_type(SignalType))*s.domain().prod());
+        //                                     },
+        //                                     [=](unsigned i, auto &s)
+        //                                     {
+        //                                     typedef typename std::decay_t<decltype(s)> SignalType;
+        //                                     _cl_buffers[i] = ::cl::Buffer(_context,
+        //                                                                   CL_MEM_READ_WRITE,
+        //                                                                   sizeof(traits_value_type(SignalType))*s.domain().prod());
+        //                                     },
+        //                                     sigs...);
+          ct::apply_for([=](auto i, auto s)
+          {
+            typedef typename std::decay_t<decltype(s)> SignalType;
+            if(access[i] == Access::READ)
+            _cl_buffers[i] = ::cl::Buffer(_context,
+                                          CL_MEM_READ_ONLY,
+                                          sizeof(traits_value_type(SignalType))*s.domain().prod());
+            else if(access[i] == Access::WRITE)
+            _cl_buffers[i] = ::cl::Buffer(_context,
+                                          CL_MEM_WRITE_ONLY,
+                                          sizeof(traits_value_type(SignalType))*s.domain().prod());
+            else if(access[i] == Access::READ_WRITE)
+            _cl_buffers[i] = ::cl::Buffer(_context,
+                                          CL_MEM_READ_WRITE,
+                                          sizeof(traits_value_type(SignalType))*s.domain().prod());
+          }, sigs...);
       }
 
       // =====================================================================
@@ -90,19 +115,19 @@ namespace spl
       }
 
       // =====================================================================
-      void operator()(::cl::NDRange _range,const std::string& kernel_name="main")
+      void operator()(::cl::NDRange _range, const std::string& kernel_name="main")
       {
-      //  ::cl::make_kernel<::cl::Buffer> convol(::cl::Kernel(_program,kernel_name.c_str()));
+        //::cl::make_kernel<::cl::Buffer> convol(::cl::Kernel(_program,kernel_name.c_str()));
 
-      //  //size_t arg_id = 0;
-      //  //for(auto& cl_buffer : _cl_buffers)
-      //    //convol.setArg(arg_id++,cl_buffer);
+        //::cl::EnqueueArgs eargs(_queue,
+        //                        ::cl::NullRange,
+        //                        _range,
+        //                        ::cl::NullRange);
 
-      //  ::cl::EnqueueArgs eargs(_queue,
-      //                          ::cl::NullRange,
-      //                          _range,
-      //                          ::cl::NullRange);
-      //  convol(eargs, _cl_buffers[0]).wait();
+        //ct::unpack_tuple([=](auto... tuple) 
+        //{
+        //convol(eargs, tuple...).wait();
+        //}, _inputs);
 
       ::cl::Kernel convol = ::cl::Kernel(_program,"main");
 

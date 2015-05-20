@@ -133,7 +133,12 @@ int main()
     spl::Signal2D<float> ss(10,1);
     spl::Signal2D<float> ss2(10,1);
     
-    spl::cl::ExternalProcess<spl::Signal2D<float>,spl::Signal2D<float>> ep(default_device,kernel,ss, ss2);
+    spl::cl::ExternalProcess<spl::Signal2D<float>,
+                             const spl::Signal2D<float>> ep(default_device,
+                                                            kernel,
+                                                            ss,
+                                                            ss2,
+                                                            {spl::cl::Access::WRITE,spl::cl::Access::WRITE});
 
     ep.push<0>();
     ep(::cl::NDRange(10,1), "main");
@@ -144,6 +149,12 @@ int main()
     ep.pull<1>();
 
     for_each_pixels(ep.get<0>(),x,y)
+    {
+      assert(ss(x,y) == 10);
+      std::cout<<ss(x,y)<<std::endl;
+    }
+
+    for_each_pixels(ep.get<1>(),x,y)
     {
       assert(ss(x,y) == 10);
       std::cout<<ss(x,y)<<std::endl;
