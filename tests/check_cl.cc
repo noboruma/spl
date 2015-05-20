@@ -138,14 +138,16 @@ int main()
                                                             kernel,
                                                             ss,
                                                             ss2,
-                                                            {spl::cl::Access::WRITE,spl::cl::Access::WRITE});
+                                                            {spl::cl::Access::WRITE,
+                                                            spl::cl::Access::WRITE}
+                                                            );
 
     ep.push<0>();
-    ep(::cl::NDRange(10,1), "main");
+    ep(ss.domain(), "main");
     ep.pull<0>();
 
     ep.push<1>();
-    ep(::cl::NDRange(10,1), "main");
+    ep(ss2.domain(), "main");
     ep.pull<1>();
 
     for_each_pixels(ep.get<0>(),x,y)

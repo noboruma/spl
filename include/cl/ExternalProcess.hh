@@ -115,7 +115,8 @@ namespace spl
       }
 
       // =====================================================================
-      void operator()(::cl::NDRange _range, const std::string& kernel_name="main")
+      template<unsigned DIM>
+      void operator()(const spl::Domain<DIM> &dom, const std::string& kernel_name="main")
       {
         //::cl::make_kernel<::cl::Buffer> convol(::cl::Kernel(_program,kernel_name.c_str()));
 
@@ -129,7 +130,7 @@ namespace spl
         //convol(eargs, tuple...).wait();
         //}, _inputs);
 
-      ::cl::Kernel convol = ::cl::Kernel(_program,"main");
+      ::cl::Kernel convol = ::cl::Kernel(_program,kernel_name.c_str());
 
       size_t arg_id = 0;
       for(auto& cl_buffer : _cl_buffers)
@@ -138,7 +139,7 @@ namespace spl
 
       _queue.enqueueNDRangeKernel(convol,
                                  ::cl::NullRange,
-                                 _range, 
+                                 ::cl::NDRange(dom.prod()), 
                                  ::cl::NullRange);
       }
 
