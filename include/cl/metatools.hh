@@ -79,6 +79,22 @@ namespace spl
         else_(I,e);
       if_apply_for<cmp, I+1>(then_, else_, args...);
     }
+
+
+    template<typename T, template<typename> class M>
+    struct mute;  
+
+    //template <typename T, typename Y>
+    //struct transform
+    //{
+    //  using type = Y;
+    //};
+
+    template<typename ...T, template<typename U> class M>
+    struct mute<std::tuple<T...>, M>  
+    {
+      using type = std::tuple<typename M<T>::type...>;
+    };
   }//!ct
 } //!spl
 #endif
