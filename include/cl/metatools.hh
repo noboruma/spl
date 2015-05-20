@@ -34,20 +34,18 @@ namespace spl
         get(T0 t0, T... t)
         : get<N-1, T...> (t...) {}
       };
+
+      template <class F, class tuple, std::size_t... i>
+      constexpr decltype(auto) unpack_tuple(F&& f, tuple&& t, std::index_sequence<i...>)
+      {
+        return std::forward<F>(f)(std::get<i>(std::forward<tuple>(t))...);
+      }
     } //!internal
 
-    namespace internal {
-      template <class F, class Tuple, std::size_t... I>
-      constexpr decltype(auto) apply( F&& f, Tuple&& t, std::index_sequence<I...> )
-      {
-        return std::forward<F>(f)(std::get<I>(std::forward<Tuple>(t))...);
-      }
-    } // namespace detail
-
     template <class F, class Tuple>
-    constexpr decltype(auto) apply(F&& f, Tuple&& t)
+    constexpr decltype(auto) unpack_tuple(F&& f, Tuple&& t)
     {
-      return internal::apply(std::forward<F>(f), std::forward<Tuple>(t),
+      return internal::unpack_tuple(std::forward<F>(f), std::forward<Tuple>(t),
                              std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>{}>{});
     }
 
@@ -56,6 +54,7 @@ namespace spl
     {
       return xs([] (auto... list) { return internal::get<N, decltype(list)...>(list...).value;});
     }
+
     template<typename F, unsigned I>
     void apply_for(const F& f)
     {}

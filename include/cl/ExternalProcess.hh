@@ -1,9 +1,18 @@
 #ifndef SPL_CL_EXTERNAL_PROCESS_HH
 #define SPL_CL_EXTERNAL_PROCESS_HH
-
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <cstdlib>
+#include <cstdlib>
+#include <algorithm>
+#include <array>
+#include <tuple>
 #include "metatools.hh"
 #include "../NDSignal.hh"
-#include <array>
+#include "CL/cl.hpp"
+
 
 namespace spl 
 {
@@ -16,7 +25,7 @@ namespace spl
       // =====================================================================
       ExternalProcess(::cl::Device device,
                       const std::string &sources,
-                      SignalTypes&... sigs)
+                      SignalTypes... sigs)
       : _device(device)
       , _context({device})
       , _inputs({sigs...})
@@ -47,30 +56,37 @@ namespace spl
       }
 
       // =====================================================================
+      template<size_t ... I>
       void push()
       {
-        ct::apply([=](auto s) 
+        ct::internal::unpack_tuple([=](auto... tuple) 
         {
-          _queue.enqueueWriteBuffer(_cl_buffers[0],
-                                    CL_TRUE,
-                                    0,
-                                    sizeof(traits_value_type(decltype(s)))*s.domain().prod(),
-                                    (traits_value_type(decltype(s))*)s);
-        }, _inputs);
+          ct::apply_for([=](size_t i, auto s)
+          {
+            _queue.enqueueWriteBuffer(_cl_buffers[i],
+                                      CL_TRUE,
+                                      0,
+                                      sizeof(traits_value_type(decltype(s)))*s.domain().prod(),
+                                      (traits_value_type(decltype(s))*)s);
+          }, tuple...);
+        }, _inputs, std::index_sequence<I...>{});
       }
       
       // =====================================================================
-      //template<unsigned ...I>
+      template<size_t ...I>
       void pull()
       {
-        ct::apply([=](auto s) 
+        ct::internal::unpack_tuple([=](auto ... tuple) 
         {
-          _queue.enqueueReadBuffer(_cl_buffers[0],
-                                   CL_TRUE,
-                                   0,
-                                   sizeof(traits_value_type(decltype(s)))*s.domain().prod(),
-                                   (traits_value_type(decltype(s))*)s);
-        }, _inputs);
+          ct::apply_for([=](size_t i, auto s)
+          {
+            _queue.enqueueReadBuffer(_cl_buffers[i],
+                                      CL_TRUE,
+                                      0,
+                                      sizeof(traits_value_type(decltype(s)))*s.domain().prod(),
+                                      (traits_value_type(decltype(s))*)s);
+          }, tuple...);
+        }, _inputs, std::index_sequence<I...>{});
       }
 
       // =====================================================================
@@ -101,8 +117,14 @@ namespace spl
                                  ::cl::NullRange);
       }
 
+      template<size_t I>
+      auto get()
+      {
+        return std::get<I>(_inputs);
+      }
+
       // =====================================================================
-      //private:
+      private:
       std::array<::cl::Buffer, sizeof...(SignalTypes)> _cl_buffers;
 
       const ::cl::Device &_device;
