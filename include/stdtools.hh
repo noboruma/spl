@@ -101,11 +101,9 @@ namespace std
       if(pos == std::string::npos)
         break;
       else
-      {
         if(pos != lastPos || !trimEmpty)
-          tokens.push_back(T(str.data()+lastPos,
-                             (sizeof(T))*pos-lastPos ));
-      }
+          tokens.push_back(std::string(str.data()+lastPos,
+                                       (sizeof(T))*pos-lastPos ));
       lastPos = pos + 1;
     }
   }
