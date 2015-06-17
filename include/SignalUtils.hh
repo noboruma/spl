@@ -111,6 +111,7 @@
         return _res;
       }
 
+      static const signed precision = 10;
       private:
       const Signal2D<V> &_sig;
       Signal2D<V> _res;

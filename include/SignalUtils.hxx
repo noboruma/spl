@@ -55,16 +55,27 @@
                                                  int x_shift_r,
                                                  int y_shift_r)
       {
-        const unsigned precision = 10;
-        if(x_shift_r < 0)
+        while(x_shift_r < 0)
         {
           --x_shift_i;
           x_shift_r += precision;
         }
-        if(y_shift_r < 0)
+
+        while(x_shift_r > precision)
+        {
+          ++x_shift_i;
+          x_shift_r -= precision;
+        }
+
+        while(y_shift_r < 0)
         {
           --y_shift_i;
           y_shift_r += precision;
+        }
+        while(y_shift_r > precision)
+        {
+          ++y_shift_i;
+          y_shift_r -= precision;
         }
 
         // Integer part
