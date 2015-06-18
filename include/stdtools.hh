@@ -99,11 +99,16 @@ namespace std
     {
       pos = str.find_first_of(delimiters, lastPos);
       if(pos == std::string::npos)
-        break;
+      {
+        if(lastPos != str.length())
+          tokens.push_back(std::string(str.data()+lastPos,
+                                       (sizeof(T))*(str.length()-lastPos) ));
+          break;
+      }
       else
         if(pos != lastPos || !trimEmpty)
           tokens.push_back(std::string(str.data()+lastPos,
-                                       (sizeof(T))*pos-lastPos ));
+                                       (sizeof(T))*(pos-lastPos) ));
       lastPos = pos + 1;
     }
   }
