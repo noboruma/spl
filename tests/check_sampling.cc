@@ -45,17 +45,17 @@ int main()
 {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}, 
 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
   };
-  for_each_pixels(test, x, y)
+  for_each_pixel(test, x, y)
     test(x,y) = arr_test[y][x];
 
   spl::Up2DSampler<unsigned, spl::BilinearInterpolation, sampling_number> sampling(test);
   sampling();
-  for_each_pixels(sampling.res(),x,y)
+  for_each_pixel(sampling.res(),x,y)
     assert(sampling.res()(x,y) == arr_result[y][x]);
 
   spl::Down2DSampler<unsigned, 9> s(sampling.res());
   s();
-  for_each_pixels(s.res(),x,y)
+  for_each_pixel(s.res(),x,y)
     assert(s.res()(x,y) == arr_test[y][x]);
   return 0;
 }

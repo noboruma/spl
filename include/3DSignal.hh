@@ -91,7 +91,7 @@ namespace spl{
     inline Signal3D clone_impl() const
     {
       Signal3D ret(this->domain());
-      for_each_voxels_par(ret, x, y, z)
+      for_each_voxel_par(ret, x, y, z)
         ret(x, y, z) = (*this)(x, y, z);
       return ret;
     }
@@ -100,7 +100,7 @@ namespace spl{
     {
       Signal3D<double> res(this->domain());
       // TODO: Add cast secure
-      for_each_voxels_par((*this),x,y,z)
+      for_each_voxel_par((*this),x,y,z)
         res(x,y,z) = (double)(*this)(x,y,z) / (double)b(x,y,z);
       return res;
     }

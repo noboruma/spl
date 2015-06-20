@@ -45,7 +45,7 @@ int main()
  //   f.close();
  //   ss.convolution(kernel);
 
- //   for_each_pixels(ss,x,y)
+ //   for_each_pixel(ss,x,y)
  //   {
  //     assert(ss(x,y) == 10);
  //     std::cout<<ss(x,y)<<std::endl;
@@ -93,7 +93,7 @@ int main()
  //                      std::istreambuf_iterator<char>());
  //   f.close();
  //   ss.convolution(kernel, buffs);
- //   for_each_pixels(ss,x,y)
+ //   for_each_pixel(ss,x,y)
  //   {
  //     assert(ss(x,y) == 9);
  //     std::cout<<ss(x,y)<<std::endl;
@@ -150,13 +150,13 @@ int main()
     ep(ss2.domain(), "main");
     ep.pull<1>();
 
-    for_each_pixels(ep.get<0>(),x,y)
+    for_each_pixel(ep.get<0>(),x,y)
     {
       assert(ss(x,y) == 10);
       std::cout<<ss(x,y)<<std::endl;
     }
 
-    for_each_pixels(ep.get<1>(),x,y)
+    for_each_pixel(ep.get<1>(),x,y)
     {
       assert(ss(x,y) == 10);
       std::cout<<ss(x,y)<<std::endl;

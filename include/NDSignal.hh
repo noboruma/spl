@@ -42,28 +42,28 @@
 #define for_each_lin(sig,i)\
     for(unsigned i=0; i < sig.length(); ++i)
 
-#define for_each_pixels(im, i, j)\
+#define for_each_pixel(im, i, j)\
     for(unsigned j=0; j < im.domain()[1]; ++j)\
     for(unsigned i=0; i < im.domain()[0]; ++i)
 
-#define for_each_inner_pixels(im, i, j, b)\
+#define for_each_inner_pixel(im, i, j, b)\
     for(unsigned j=b; j < im.domain()[1]-b; ++j)\
     for(unsigned i=b; i < im.domain()[0]-b; ++i)
 
-#define for_each_pixels_par(im, i, j)\
+#define for_each_pixel_par(im, i, j)\
     _Pragma("omp parallel for collapse(2)")\
-    for_each_pixels(im, i, j)
+    for_each_pixel(im, i, j)
 
-#define for_each_voxels(vol, i, j, k)\
+#define for_each_voxel(vol, i, j, k)\
 for(unsigned k=0; k < vol.domain()[2]; ++k)\
   for(unsigned j=0; j < vol.domain()[1]; ++j)\
     for(unsigned i=0; i < vol.domain()[0]; ++i)
 
-#define for_each_voxels_par(im, i, j, k)\
+#define for_each_voxel_par(im, i, j, k)\
     _Pragma("omp parallel for collapse(3)")\
-    for_each_voxels(im, i, j, k)
+    for_each_voxel(im, i, j, k)
 
-#define for_each_elements(it)\
+#define for_each_element(it)\
     for(it.begin();it.end();++it)
 
     /* **

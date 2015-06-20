@@ -82,7 +82,7 @@
       void operator()()
       {
         traits_iterator_type_(Signal2D<bool>) it(_res.domain());
-        for_each_elements(it)
+        for_each_element(it)
         _res[it] = insidePolygon(it);
       }
 

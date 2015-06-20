@@ -42,7 +42,7 @@ int main()
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cwidth; ++i)
@@ -59,7 +59,7 @@ int main()
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cheight; ++i)
@@ -76,7 +76,7 @@ int main()
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cdepth; ++i)

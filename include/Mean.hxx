@@ -25,7 +25,7 @@
         if(_src.domain()[axis] == 0)
           throw_logic("Mean on null axis");
 
-        for_each_elements(it)
+        for_each_element(it)
         {
           (*_res)[it] = 0;
 
@@ -68,7 +68,7 @@
           _res[dim] = 0;
           long double acc = 0;
           //long int cpt=0;
-          for_each_elements(it)
+          for_each_element(it)
           {
             acc = acc + (double)area[it] / (double)area.domain().prod();
           }
@@ -103,7 +103,7 @@
           _res[dim] = 0;
           long int acc = 0;
           long int cpt=0;
-          for_each_elements(it)
+          for_each_element(it)
           {
             if(!mask[spl::Point2D(it[coord_mask_from_iterator[0]],
                                   it[coord_mask_from_iterator[1]])])

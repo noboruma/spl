@@ -16,7 +16,7 @@
       void operator()()
       {
         traits_iterator_type(S) it(_sig.domain());
-        for_each_elements(it)
+        for_each_element(it)
           ++_res[_sig[it]];
       }
 

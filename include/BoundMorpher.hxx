@@ -35,7 +35,7 @@
     {
       S res(parent::_domain);
       traits_iterator_type(S) it(parent::_domain);
-      for_each_elements(it)
+      for_each_element(it)
         res[it] = (*this)[it];
 
       return res;

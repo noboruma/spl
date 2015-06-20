@@ -30,10 +30,10 @@ int main()
       {false,true,true}
     };
 
-    for_each_pixels(test, x, y)
+    for_each_pixel(test, x, y)
     test(x,y) = arr_test[y][x];
 
-    for_each_pixels(mask, x, y)
+    for_each_pixel(mask, x, y)
     mask(x,y) = arr_mask[y][x];
 
     spl::Extremum<signal, std::less> e_l(test);
@@ -95,10 +95,10 @@ int main()
       }
     };
 
-    for_each_voxels(test, x, y, z)
+    for_each_voxel(test, x, y, z)
     test(x,y,z) = arr_test[z][y][x];
 
-    for_each_voxels(mask, x, y, z)
+    for_each_voxel(mask, x, y, z)
     mask(x,y,z) = arr_mask[z][y][x];
 
     spl::Extremum<signal, std::less> e_l(test);
@@ -152,7 +152,7 @@ int main()
     spl::PolygonMask p(dom, l);
     p();
     int c = 0;
-    for_each_pixels(p.res(), x, y)
+    for_each_pixel(p.res(), x, y)
      assert(p.res()(x,y) == test[y][x]);
   }
   return 0;

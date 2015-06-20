@@ -81,7 +81,7 @@ namespace spl{
     Signal2D clone_impl() const
     {
       Signal2D ret(this->domain());
-      for_each_pixels_par(ret, x, y)
+      for_each_pixel_par(ret, x, y)
         ret(x,y) = (*this)(x,y);
       return ret;
     }
@@ -109,7 +109,7 @@ namespace spl{
     const Signal2D<double> div_comp_wise_impl(const Signal2D<V> &b) const
     {
       Signal2D<double> res(this->domain());
-      for_each_pixels_par((*this),x,y)
+      for_each_pixel_par((*this),x,y)
       //TODO: Add cast check
         res(x,y) = (double)(*this)(x,y) / (double)b(x,y);
       return res;

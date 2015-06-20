@@ -24,7 +24,7 @@ namespace spl
     operator()()
     {
       interpolation<V,L> op_int(_sig);
-      for_each_inner_pixels((*_up_sig), x, y, 1)
+      for_each_inner_pixel((*_up_sig), x, y, 1)
       (*_up_sig)(x,y) = op_int(x,y);
     }
 
@@ -55,7 +55,7 @@ namespace spl
         Up2DSampler<V,interpolation,L> s(signal[i]);
         s();
         const Signal2D<V> &res = s.res();
-        for_each_pixels(res,x,y)
+        for_each_pixel(res,x,y)
         (*_up_sig)(x,y,i) = res(x,y);
       }
     }
@@ -83,7 +83,7 @@ namespace spl
     operator()()
     {
       interpolation<V,0> op_int(_sig, L);
-      for_each_inner_pixels((*_up_sig), x, y, 1)
+      for_each_inner_pixel((*_up_sig), x, y, 1)
       (*_up_sig)(x,y) = op_int(x,y);
     }
 
@@ -115,7 +115,7 @@ namespace spl
         Up2DSampler<V,interpolation> s(signal[i], L);
         s();
         const Signal2D<V> &res = s.res();
-        for_each_pixels(res,x,y)
+        for_each_pixel(res,x,y)
         (*_up_sig)(x,y,i) = res(x,y);
       }
     }
