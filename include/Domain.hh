@@ -5,6 +5,13 @@
 
   namespace spl
   {
+    enum axis
+    {
+      x = 0,
+      y = 1,
+      z = 2,
+      t = 3
+    };
 
     template<unsigned DIM>
     struct Domain

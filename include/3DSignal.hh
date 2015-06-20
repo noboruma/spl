@@ -20,6 +20,7 @@ namespace spl{
         typedef Domain<3> domain_type;
         typedef Signal2D<V>  sub_type;
         typedef Signal3D<V>  concrete_type;
+        constexpr auto axis_dims() {return std::make_index_sequence<3>();}
       };
     template<typename oldType, typename newVal>
       struct mute<Signal3D<oldType>,oldType,newVal>

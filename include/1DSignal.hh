@@ -19,6 +19,7 @@ namespace spl{
         typedef Domain<1> domain_type;
         typedef V sub_type;
         typedef Signal1D<V> concrete_type;
+        constexpr auto axis_dims() {return std::make_index_sequence<1>();}
       };
 
     template<typename oldType, typename newVal>

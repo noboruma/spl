@@ -46,7 +46,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -61,7 +61,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]+1][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]+1][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -76,7 +76,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]][it_slice[0]+1]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]][it_slice[spl::axis::x]+1]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -130,7 +130,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -145,7 +145,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -160,7 +160,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -175,7 +175,7 @@ int main()
       unsigned sum =0;
       for_each_elements(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }

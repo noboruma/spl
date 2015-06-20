@@ -38,24 +38,24 @@ int main()
 
     spl::Extremum<signal, std::less> e_l(test);
     e_l();
-    assert(e_l.res_point()[0] == 0);
-    assert(e_l.res_point()[1] == 0);
+    assert(e_l.res_point()[spl::axis::x] == 0);
+    assert(e_l.res_point()[spl::axis::y] == 0);
     assert(e_l.res() == 0);
     spl::Extremum<signal, std::less> e_lm(test);
     e_lm(mask);
-    assert(e_lm.res_point()[0] == 2);
-    assert(e_lm.res_point()[1] == 2);
+    assert(e_lm.res_point()[spl::axis::x] == 2);
+    assert(e_lm.res_point()[spl::axis::y] == 2);
     assert(e_lm.res() == 0);
 
     spl::Extremum<signal, std::greater> e_g(test);
     e_g();
-    assert(e_g.res_point()[0] == 1);
-    assert(e_g.res_point()[1] == 1);
+    assert(e_g.res_point()[spl::axis::x] == 1);
+    assert(e_g.res_point()[spl::axis::y] == 1);
     assert(e_g.res() == 9);
     spl::Extremum<signal, std::greater> e_gm(test);
     e_gm(mask);
-    assert(e_gm.res_point()[0] == 2);
-    assert(e_gm.res_point()[1] == 1);
+    assert(e_gm.res_point()[spl::axis::x] == 2);
+    assert(e_gm.res_point()[spl::axis::y] == 1);
     assert(e_gm.res() == 2);
   }
 
@@ -103,28 +103,28 @@ int main()
 
     spl::Extremum<signal, std::less> e_l(test);
     e_l();
-    assert(e_l.res_point()[0] == 0);
-    assert(e_l.res_point()[1] == 0);
-    assert(e_l.res_point()[2] == 0);
+    assert(e_l.res_point()[spl::axis::x] == 0);
+    assert(e_l.res_point()[spl::axis::y] == 0);
+    assert(e_l.res_point()[spl::axis::z] == 0);
     assert(e_l.res() == 0);
     spl::Extremum<signal, std::less> e_lm(test);
     e_lm(mask);
-    assert(e_lm.res_point()[0] == 2);
-    assert(e_lm.res_point()[1] == 2);
-    assert(e_lm.res_point()[2] == 1);
+    assert(e_lm.res_point()[spl::axis::x] == 2);
+    assert(e_lm.res_point()[spl::axis::y] == 2);
+    assert(e_lm.res_point()[spl::axis::z] == 1);
     assert(e_lm.res() == 0);
 
     spl::Extremum<signal, std::greater> e_g(test);
     e_g();
-    assert(e_g.res_point()[0] == 1);
-    assert(e_g.res_point()[1] == 1);
-    assert(e_g.res_point()[2] == 0);
+    assert(e_g.res_point()[spl::axis::x] == 1);
+    assert(e_g.res_point()[spl::axis::y] == 1);
+    assert(e_g.res_point()[spl::axis::z] == 0);
     assert(e_g.res() == 9);
     spl::Extremum<signal, std::greater> e_gm(test);
     e_gm(mask);
-    assert(e_gm.res_point()[0] == 2);
-    assert(e_gm.res_point()[1] == 1);
-    assert(e_gm.res_point()[2] == 1);
+    assert(e_gm.res_point()[spl::axis::x] == 2);
+    assert(e_gm.res_point()[spl::axis::y] == 1);
+    assert(e_gm.res_point()[spl::axis::z] == 1);
     assert(e_gm.res() == 8);
   }
 
