@@ -36,11 +36,11 @@
             if(i != axis)
               p[i] = it[cpt++];
 
-          long double acc = 0;
+          double acc = 0;
           for(unsigned dim=0; dim < _src.domain()[axis]; ++dim)
           {
             p[axis] = dim;
-            acc = acc + (double)_src[p] / (double)_src.domain()[axis];
+            acc += (double)_src[p] / (double)_src.domain()[axis];
           }
           (*_res)[it] = acc;
         }
@@ -79,6 +79,7 @@
           ++to[axis];
         }
       }
+
       // =======================================================================
       template<typename IS, typename returnType, unsigned axis>
       void Mean<IS, returnType, axis, false>::operator()(const spl::Signal2D<bool>& mask)
