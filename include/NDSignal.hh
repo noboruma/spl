@@ -34,6 +34,7 @@
 #define traits_iterator_type_(E) E::iterator
 
 #define traits_domain_dim(E) spl::global::traits<E>::domain_type::dim
+#define traits_domain_dims(E) spl::global::traits<E>::axis_dims()
 
 #define traits_mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
 #define mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
