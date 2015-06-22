@@ -67,6 +67,9 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
 #define for_each_element(it)\
     for(it.begin();it.end();++it)
 
+#define traits_iterator_decl(sig, it)\
+  traits_iterator_type(decltype(sig)) it(sig.domain());
+
     /* **
      * NDSignal is a structure to represent every type of N dimension Signal
      */
