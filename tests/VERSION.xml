@@ -1,0 +1,25 @@
+<version>
+1.0
+</version>
+
+<headers>
+/home/zackel/workspace/c++/spl/include/1DSignal.hh
+/home/zackel/workspace/c++/spl/include/2DSignal.hh
+/home/zackel/workspace/c++/spl/include/3DSignal.hh
+/home/zackel/workspace/c++/spl/include/BoundMorpher.hh
+/home/zackel/workspace/c++/spl/include/DPoint.hh
+/home/zackel/workspace/c++/spl/include/Mean.hh
+/home/zackel/workspace/c++/spl/include/Point.hh
+/home/zackel/workspace/c++/spl/include/SignalUtils.hh
+/home/zackel/workspace/c++/spl/include/Upsampler.hh
+/home/zackel/workspace/c++/spl/include/cl/2DSignal.hh
+/home/zackel/workspace/c++/spl/include/cl/CLSignal.hh
+</headers>
+
+<libs>
+/home/zackel/workspace/c++/spl/include
+</libs>
+
+<gcc_options>
+  -std=c++1y
+</gcc_options>
