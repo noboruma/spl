@@ -65,6 +65,33 @@ namespace spl{
       return _data[p._y][p._x];
     }
 
+    V gradient(unsigned x, unsigned y, unsigned ori)
+    {
+      return parent::gradient(traits_point_type(Signal2D<V>)(x,y),ori) ;
+    }
+    std::vector<V> gradient(unsigned x, unsigned y)
+    {
+      return parent::gradient(traits_point_type(Signal2D<V>)(x,y)) ;
+    }
+    V laplacian(unsigned x, unsigned y)
+    {
+      return parent::laplacian(traits_point_type(Signal2D<V>)(x,y)) ;
+    }
+    Signal1D<V> row(unsigned i)
+    {
+      Signal1D<V> r(width()) ;
+      for_each_lin(r, j)
+        r(j) = _data[j][i] ;
+      return r ;
+    }
+    Signal1D<V> col(unsigned j)
+    {
+      Signal1D<V> c(height()) ;
+      for_each_lin(c, i)
+        c(i) = _data[j][i] ;
+      return c ;
+    }
+
     Signal2D clone_impl() const
     {
       Signal2D ret(this->domain());
