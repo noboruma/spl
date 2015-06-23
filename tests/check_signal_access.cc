@@ -21,20 +21,20 @@ int main()
       {0,2,0}
     };
 
-    for_each_pixels(test, x, y)
+    for_each_pixel(test, x, y)
     test(x,y) = arr_test[y][x];
 
-    for_each_pixels_par(test, x, y)
+    for_each_pixel_par(test, x, y)
     test(x,y) = arr_test[y][x];
 
-    for_each_pixels(test, x, y)
+    for_each_pixel(test, x, y)
     assert(test(x,y) == arr_test[y][x]);
 
-    for_each_pixels(test, x, y)
+    for_each_pixel(test, x, y)
     assert(test[spl::Point2D(x,y)] == arr_test[y][x]);
 
     traits_iterator_type_(spl::Signal2D<value_type>) it(dom);
-    for_each_elements(it)
+    for_each_element(it)
     assert(test(it[0], it[1]) == test[it]);
 
     // BoundMorpher
@@ -44,9 +44,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal2D<value_type>>) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -59,9 +59,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal2D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]+1][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]+1][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -74,9 +74,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal2D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[1]][it_slice[0]+1]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::y]][it_slice[spl::axis::x]+1]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -105,20 +105,20 @@ int main()
       }
     };
 
-    for_each_voxels(test, x, y, z)
+    for_each_voxel(test, x, y, z)
     test(x,y,z) = arr_test[z][y][x];
 
-    for_each_voxels_par(test, x, y, z)
+    for_each_voxel_par(test, x, y, z)
     test(x,y,z) = arr_test[z][y][x];
 
-    for_each_voxels(test, x, y, z)
+    for_each_voxel(test, x, y, z)
     assert(test(x,y,z) == arr_test[z][y][x]);
 
-    for_each_voxels(test, x, y, z)
+    for_each_voxel(test, x, y, z)
     assert(test[spl::Point3D(x,y,z)] == arr_test[z][y][x]);
 
     traits_iterator_type_(spl::Signal3D<value_type>) it(dom);
-    for_each_elements(it)
+    for_each_element(it)
     assert(test(it[0], it[1], it[2]) == test[it]);
 
     // BoundMorpher
@@ -128,9 +128,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal3D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -143,9 +143,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal3D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -158,9 +158,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal3D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }
@@ -173,9 +173,9 @@ int main()
       traits_iterator_type_(spl::BoundMorpher<spl::Signal3D<value_type> >) it_slice(slice_bm.domain());
       unsigned cpt=0;
       unsigned sum =0;
-      for_each_elements(it_slice)
+      for_each_element(it_slice)
       {
-        assert(slice_bm[it_slice] == arr_test[it_slice[2]][it_slice[1]][it_slice[0]]);
+        assert(slice_bm[it_slice] == arr_test[it_slice[spl::axis::z]][it_slice[spl::axis::y]][it_slice[spl::axis::x]]);
         sum += slice_bm[it_slice];
         ++cpt;
       }

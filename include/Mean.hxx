@@ -25,7 +25,7 @@
         if(_src.domain()[axis] == 0)
           throw_logic("Mean on null axis");
 
-        for_each_elements(it)
+        for_each_element(it)
         {
           (*_res)[it] = 0;
 
@@ -36,11 +36,11 @@
             if(i != axis)
               p[i] = it[cpt++];
 
-          long double acc = 0;
+          double acc = 0;
           for(unsigned dim=0; dim < _src.domain()[axis]; ++dim)
           {
             p[axis] = dim;
-            acc = acc + (double)_src[p] / (double)_src.domain()[axis];
+            acc += (double)_src[p] / (double)_src.domain()[axis];
           }
           (*_res)[it] = acc;
         }
@@ -68,7 +68,7 @@
           _res[dim] = 0;
           long double acc = 0;
           //long int cpt=0;
-          for_each_elements(it)
+          for_each_element(it)
           {
             acc = acc + (double)area[it] / (double)area.domain().prod();
           }
@@ -79,6 +79,7 @@
           ++to[axis];
         }
       }
+
       // =======================================================================
       template<typename IS, typename returnType, unsigned axis>
       void Mean<IS, returnType, axis, false>::operator()(const spl::Signal2D<bool>& mask)
@@ -102,7 +103,7 @@
           _res[dim] = 0;
           long int acc = 0;
           long int cpt=0;
-          for_each_elements(it)
+          for_each_element(it)
           {
             if(!mask[spl::Point2D(it[coord_mask_from_iterator[0]],
                                   it[coord_mask_from_iterator[1]])])

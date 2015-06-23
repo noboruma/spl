@@ -20,6 +20,8 @@ namespace spl{
         typedef Point2D point_type;
         typedef Domain<2> domain_type;
         typedef Signal1D<V> sub_type;
+        typedef Signal2D<V> concrete_type;
+        constexpr auto axis_dims() {return std::make_index_sequence<2>();}
       };
 
     template<typename oldType, typename newVal>
@@ -55,6 +57,17 @@ namespace spl{
       return at_impl(traits_point_type(Signal2D<V>)(x,y));
     }
 
+    void operator=(const Signal2D<V>& p)
+    {
+      unsigned h= p.domain()[1];
+      _data = new V* [h];
+      for(unsigned y=0; y < h; ++y)
+        _data[y] = &parent::data()[y*h];
+      parent::operator=(p);
+    }
+
+
+    private:
     V& at_impl(const traits_point_type(Signal2D<V>)& p)
     {
       return _data[p._y][p._x];
@@ -95,11 +108,12 @@ namespace spl{
     Signal2D clone_impl() const
     {
       Signal2D ret(this->domain());
-      for_each_pixels_par(ret, x, y)
+      for_each_pixel_par(ret, x, y)
         ret(x,y) = (*this)(x,y);
       return ret;
     }
 
+    public:
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
 
@@ -119,7 +133,20 @@ namespace spl{
     }
 
     private:
+    const Signal2D<double> div_comp_wise_impl(const Signal2D<V> &b) const
+    {
+      Signal2D<double> res(this->domain());
+      for_each_pixel_par((*this),x,y)
+      //TODO: Add cast check
+        res(x,y) = (double)(*this)(x,y) / (double)b(x,y);
+      return res;
+    }
+
+    private:
     V **_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }
 

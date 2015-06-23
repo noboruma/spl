@@ -31,11 +31,11 @@
 
     // =======================================================================
     template<typename S>
-    S BoundMorpher<S>::clone() const
+    traits_concrete_type(S) BoundMorpher<S>::clone_impl() const
     {
       S res(parent::_domain);
       traits_iterator_type(S) it(parent::_domain);
-      for_each_elements(it)
+      for_each_element(it)
         res[it] = (*this)[it];
 
       return res;

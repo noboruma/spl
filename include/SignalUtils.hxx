@@ -12,7 +12,7 @@
       _extremum = _in[it];
       _coord = it;
 
-      for_each_elements(it)
+      for_each_element(it)
       {
         if(cmp(_in[it],_extremum))
         {
@@ -36,7 +36,7 @@
       _extremum = _in[it];
       _coord = it;
 
-      for_each_elements(it)
+      for_each_element(it)
       {
         if(!mask[it])
           continue;
@@ -55,20 +55,31 @@
                                                  int x_shift_r,
                                                  int y_shift_r)
       {
-        const unsigned precision = 10;
-        if(x_shift_r < 0)
+        while(x_shift_r < 0)
         {
           --x_shift_i;
           x_shift_r += precision;
         }
-        if(y_shift_r < 0)
+
+        while(x_shift_r > precision)
+        {
+          ++x_shift_i;
+          x_shift_r -= precision;
+        }
+
+        while(y_shift_r < 0)
         {
           --y_shift_i;
           y_shift_r += precision;
         }
+        while(y_shift_r > precision)
+        {
+          ++y_shift_i;
+          y_shift_r -= precision;
+        }
 
         // Integer part
-        for_each_pixels(_sig, x, y)
+        for_each_pixel(_sig, x, y)
         {
           traits_point_type(Signal2D<V>) p(x,y);
           int x_shift = x+ x_shift_i,
@@ -123,7 +134,7 @@
           wbl = x_shift_r;
         }
 
-        for_each_pixels(_res, x, y)
+        for_each_pixel(_res, x, y)
         {
           int x_shift = x+1,
               y_shift = y+1;

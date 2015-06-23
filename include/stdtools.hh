@@ -9,13 +9,33 @@
 #include <iomanip>
 #include <type_traits>
 #include <limits>
+#include <cmath>
 
 /* **
  * This file is juste a set of convenient standard methods from std11 such
  * as smart pointer and other stuff.
  */
 
-namespace std{
+#define sign_form(T) typename std::make_signed<T>::type
+#define sign_form_(T) std::make_signed<T>::type
+
+namespace std
+{
+  template<bool exclude=true, typename T>
+  bool approx_equal(T a, T b, T epsilon=std::numeric_limits<T>::epsilon())
+  {
+    if(std::numeric_limits<T>::is_integer)
+      if(exclude)
+        return std::abs(a-b) < epsilon;
+      else
+        return std::abs(a-b) <= epsilon;
+    else
+      if(exclude)
+        return std::fabs(a-b) < epsilon;
+      else
+        return std::fabs(a-b) <= epsilon;
+  }
+
   template< typename T >
   inline T convert(const std::string& str)
   {
@@ -94,13 +114,16 @@ namespace std{
     {
       pos = str.find_first_of(delimiters, lastPos);
       if(pos == std::string::npos)
-        break;
-      else
       {
-        if(pos != lastPos || !trimEmpty)
-          tokens.push_back(T(str.data()+lastPos,
-                             (sizeof(T))*pos-lastPos ));
+        if(lastPos != str.length())
+          tokens.push_back(std::string(str.data()+lastPos,
+                                       (sizeof(T))*(str.length()-lastPos) ));
+          break;
       }
+      else
+        if(pos != lastPos || !trimEmpty)
+          tokens.push_back(std::string(str.data()+lastPos,
+                                       (sizeof(T))*(pos-lastPos) ));
       lastPos = pos + 1;
     }
   }

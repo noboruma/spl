@@ -30,32 +30,32 @@ int main()
       {false,true,true}
     };
 
-    for_each_pixels(test, x, y)
+    for_each_pixel(test, x, y)
     test(x,y) = arr_test[y][x];
 
-    for_each_pixels(mask, x, y)
+    for_each_pixel(mask, x, y)
     mask(x,y) = arr_mask[y][x];
 
     spl::Extremum<signal, std::less> e_l(test);
     e_l();
-    assert(e_l.res_point()[0] == 0);
-    assert(e_l.res_point()[1] == 0);
+    assert(e_l.res_point()[spl::axis::x] == 0);
+    assert(e_l.res_point()[spl::axis::y] == 0);
     assert(e_l.res() == 0);
     spl::Extremum<signal, std::less> e_lm(test);
     e_lm(mask);
-    assert(e_lm.res_point()[0] == 2);
-    assert(e_lm.res_point()[1] == 2);
+    assert(e_lm.res_point()[spl::axis::x] == 2);
+    assert(e_lm.res_point()[spl::axis::y] == 2);
     assert(e_lm.res() == 0);
 
     spl::Extremum<signal, std::greater> e_g(test);
     e_g();
-    assert(e_g.res_point()[0] == 1);
-    assert(e_g.res_point()[1] == 1);
+    assert(e_g.res_point()[spl::axis::x] == 1);
+    assert(e_g.res_point()[spl::axis::y] == 1);
     assert(e_g.res() == 9);
     spl::Extremum<signal, std::greater> e_gm(test);
     e_gm(mask);
-    assert(e_gm.res_point()[0] == 2);
-    assert(e_gm.res_point()[1] == 1);
+    assert(e_gm.res_point()[spl::axis::x] == 2);
+    assert(e_gm.res_point()[spl::axis::y] == 1);
     assert(e_gm.res() == 2);
   }
 
@@ -95,36 +95,36 @@ int main()
       }
     };
 
-    for_each_voxels(test, x, y, z)
+    for_each_voxel(test, x, y, z)
     test(x,y,z) = arr_test[z][y][x];
 
-    for_each_voxels(mask, x, y, z)
+    for_each_voxel(mask, x, y, z)
     mask(x,y,z) = arr_mask[z][y][x];
 
     spl::Extremum<signal, std::less> e_l(test);
     e_l();
-    assert(e_l.res_point()[0] == 0);
-    assert(e_l.res_point()[1] == 0);
-    assert(e_l.res_point()[2] == 0);
+    assert(e_l.res_point()[spl::axis::x] == 0);
+    assert(e_l.res_point()[spl::axis::y] == 0);
+    assert(e_l.res_point()[spl::axis::z] == 0);
     assert(e_l.res() == 0);
     spl::Extremum<signal, std::less> e_lm(test);
     e_lm(mask);
-    assert(e_lm.res_point()[0] == 2);
-    assert(e_lm.res_point()[1] == 2);
-    assert(e_lm.res_point()[2] == 1);
+    assert(e_lm.res_point()[spl::axis::x] == 2);
+    assert(e_lm.res_point()[spl::axis::y] == 2);
+    assert(e_lm.res_point()[spl::axis::z] == 1);
     assert(e_lm.res() == 0);
 
     spl::Extremum<signal, std::greater> e_g(test);
     e_g();
-    assert(e_g.res_point()[0] == 1);
-    assert(e_g.res_point()[1] == 1);
-    assert(e_g.res_point()[2] == 0);
+    assert(e_g.res_point()[spl::axis::x] == 1);
+    assert(e_g.res_point()[spl::axis::y] == 1);
+    assert(e_g.res_point()[spl::axis::z] == 0);
     assert(e_g.res() == 9);
     spl::Extremum<signal, std::greater> e_gm(test);
     e_gm(mask);
-    assert(e_gm.res_point()[0] == 2);
-    assert(e_gm.res_point()[1] == 1);
-    assert(e_gm.res_point()[2] == 1);
+    assert(e_gm.res_point()[spl::axis::x] == 2);
+    assert(e_gm.res_point()[spl::axis::y] == 1);
+    assert(e_gm.res_point()[spl::axis::z] == 1);
     assert(e_gm.res() == 8);
   }
 
@@ -152,7 +152,7 @@ int main()
     spl::PolygonMask p(dom, l);
     p();
     int c = 0;
-    for_each_pixels(p.res(), x, y)
+    for_each_pixel(p.res(), x, y)
      assert(p.res()(x,y) == test[y][x]);
   }
   return 0;

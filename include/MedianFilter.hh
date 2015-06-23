@@ -16,10 +16,10 @@ namespace spl{
     void op_exec_impl()
     {
       const std::vector<Signal2D<V>> &arr(parent::_sig);
-#pragma omp parallel for
+      #pragma omp parallel for
       for(unsigned z=0; z < arr.size(); ++z)
       {
-        for_each_inner_pixels(arr[z], x, y, 1)
+        for_each_inner_pixel(arr[z], x, y, 1)
         {
           std::vector<V> values;
           for(signed i = -1; i <= 1; ++i)

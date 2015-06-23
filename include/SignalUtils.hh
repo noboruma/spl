@@ -82,7 +82,7 @@
       void operator()()
       {
         traits_iterator_type_(Signal2D<bool>) it(_res.domain());
-        for_each_elements(it)
+        for_each_element(it)
         _res[it] = insidePolygon(it);
       }
 
@@ -111,6 +111,7 @@
         return _res;
       }
 
+      static const signed precision = 10;
       private:
       const Signal2D<V> &_sig;
       Signal2D<V> _res;

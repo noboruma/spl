@@ -27,7 +27,7 @@ namespace spl
     void operator()()
     {
       traits_iterator_type(Signal2D<V>) it((*_down_sig).domain());
-      for_each_elements(it)
+      for_each_element(it)
       (*_down_sig)[it] = _sig[Point2D(it[0]*(L+1), it[1]*(L+1))];
     }
   };
@@ -58,7 +58,7 @@ namespace spl
       {
         Down2DSampler<V,L> s(signal[i]);
         s();
-        for_each_pixels(s.res(), x, y)
+        for_each_pixel(s.res(), x, y)
         (*_down_sig)(x,y,i) = s.res()(x,y);
       }
     }

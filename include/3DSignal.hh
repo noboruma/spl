@@ -4,6 +4,7 @@
 # include "NDSignal.hh"
 # include "Point.hh"
 #include "2DSignal.hh"
+#include <iostream>
 
 namespace spl{
   template<typename V>
@@ -18,6 +19,8 @@ namespace spl{
         typedef Point3D point_type;
         typedef Domain<3> domain_type;
         typedef Signal2D<V>  sub_type;
+        typedef Signal3D<V>  concrete_type;
+        constexpr auto axis_dims() {return std::make_index_sequence<3>();}
       };
     template<typename oldType, typename newVal>
       struct mute<Signal3D<oldType>,oldType,newVal>
@@ -34,6 +37,7 @@ namespace spl{
 
     Signal3D(unsigned w, unsigned h, unsigned d);
     Signal3D(Domain<3> dom);
+    Signal3D(const Signal3D<V>& s);
 
     ~Signal3D();
 
@@ -46,6 +50,7 @@ namespace spl{
       return at_impl(traits_point_type(Signal3D<V>)(x,y,z));
     }
 
+    private:
     inline V &at_impl(const traits_point_type(Signal3D<V>)& p)
     {
       return _data[p._z][p._y][p._x];
@@ -55,6 +60,20 @@ namespace spl{
       return _data[p._z][p._y][p._x];
     }
 
+    public:
+    void operator=(const Signal3D<V>& p)
+    {
+      unsigned h= p.domain()[1];
+      unsigned d= p.domain()[2];
+      _data = new V** [d];
+      for(unsigned z=0; z < d; ++z)
+      {
+        _data[z] = new V*[h]; 
+        for(unsigned y=0; y < h; ++y)
+          _data[z][y] = p._data[z][y];
+      }
+      parent::operator=(p);
+    }
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}
     const unsigned depth() const {return parent::_domain[2];}
@@ -68,16 +87,29 @@ namespace spl{
 
     operator const std::vector<V**>() const;
 
-    Signal3D clone_impl() const
+    private:
+    inline Signal3D clone_impl() const
     {
       Signal3D ret(this->domain());
-      for_each_voxels_par(ret, x, y, z)
+      for_each_voxel_par(ret, x, y, z)
         ret(x, y, z) = (*this)(x, y, z);
       return ret;
     }
 
+    const Signal3D<double> div_comp_wise_impl(const Signal3D<V> &b) const
+    {
+      Signal3D<double> res(this->domain());
+      // TODO: Add cast secure
+      for_each_voxel_par((*this),x,y,z)
+        res(x,y,z) = (double)(*this)(x,y,z) / (double)b(x,y,z);
+      return res;
+    }
+
     private:
     V ***_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }//!spl
 

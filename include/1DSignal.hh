@@ -18,6 +18,8 @@ namespace spl{
         typedef Point1D point_type;
         typedef Domain<1> domain_type;
         typedef V sub_type;
+        typedef Signal1D<V> concrete_type;
+        constexpr auto axis_dims() {return std::make_index_sequence<1>();}
       };
 
     template<typename oldType, typename newVal>
@@ -51,6 +53,8 @@ namespace spl{
       return at_impl(traits_point_type(Signal1D<V>)(x));
     }
 
+    private:
+
     V& at_impl(const traits_point_type(Signal1D<V>)& p)
     {
       return _data[p._x];
@@ -60,6 +64,8 @@ namespace spl{
     {
       return _data[p._x];
     }
+
+    public:
 
     const unsigned length() const 
     {
@@ -87,6 +93,9 @@ namespace spl{
 
     private:
     V *_data;
+
+    template <typename T>
+    friend struct NDSignal;
   };
 }//!spl
 

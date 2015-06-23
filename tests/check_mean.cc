@@ -38,11 +38,11 @@ int main()
   {
     // X axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,value_type, 0, true > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,value_type, spl::axis::x, true > m(sig);
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cwidth; ++i)
@@ -55,11 +55,11 @@ int main()
 
     // Y axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>, value_type, 1, true > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>, value_type, spl::axis::y, true > m(sig);
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cheight; ++i)
@@ -72,11 +72,11 @@ int main()
 
     // Z axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,value_type, 2, true > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,value_type, spl::axis::z, true > m(sig);
       m();
       const spl::Signal2D<value_type>& res = m.res();
 
-      for_each_pixels(res, x, y)
+      for_each_pixel(res, x, y)
       {
         int mean = 0;
         for(unsigned i=0; i < cdepth; ++i)
@@ -95,7 +95,7 @@ int main()
 
     //X axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,double, 0, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,double, spl::axis::x, false > m(sig);
       m();
       const spl::Signal1D<double>& res = m.res();
 
@@ -112,7 +112,7 @@ int main()
 
     //Y axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,double, 1, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,double, spl::axis::y, false > m(sig);
       m();
       const spl::Signal1D<double>& res = m.res();
 
@@ -129,7 +129,7 @@ int main()
 
     //Z axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,double, 2, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,double, spl::axis::z, false > m(sig);
       m();
       const spl::Signal1D<double>& res = m.res();
 
@@ -183,7 +183,7 @@ int main()
 
     //X axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>, double, 0, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>, double, spl::axis::x, false > m(sig);
       m(wmask);
       const spl::Signal1D<double>& res = m.res();
 
@@ -205,7 +205,7 @@ int main()
 
     //Y axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,double, 1, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,double, spl::axis::y, false > m(sig);
       m(hmask);
       const spl::Signal1D<double>& res = m.res();
 
@@ -226,7 +226,7 @@ int main()
     }
     //Z axis
     {
-      spl::algo::Mean<spl::Signal3D<value_type>,double, 2, false > m(sig);
+      spl::algo::Mean<spl::Signal3D<value_type>,double, spl::axis::z, false > m(sig);
       m(dmask);
       const spl::Signal1D<double>& res = m.res();
 
