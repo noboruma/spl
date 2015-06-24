@@ -1,4 +1,9 @@
   namespace spl{
+
+    // =====================================================================
+    template<typename E, unsigned dim>
+    Point<E,dim>::Point() {}
+
     // =====================================================================
     template<typename E, unsigned dim>
     const unsigned &Point<E,dim>::operator[](unsigned i) const 
@@ -54,6 +59,14 @@
     // =====================================================================
     template<typename E, unsigned dim>
     void Point<E,dim>::operator=(const E &p) 
+    {
+      for(unsigned i=0; i < dim; ++i)
+        (*this)[i] = p[i];
+    }
+
+    // =====================================================================
+    template<typename E, unsigned dim>
+    Point<E,dim>::Point(const Point<E,dim>& p)
     {
       for(unsigned i=0; i < dim; ++i)
         (*this)[i] = p[i];

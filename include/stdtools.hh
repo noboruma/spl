@@ -24,16 +24,12 @@ namespace std
   template<bool exclude=true, typename T>
   bool approx_equal(T a, T b, T epsilon=std::numeric_limits<T>::epsilon())
   {
-    if(std::numeric_limits<T>::is_integer)
-      if(exclude)
-        return std::abs(a-b) < epsilon;
-      else
-        return std::abs(a-b) <= epsilon;
+    if(a > b) { a ^= b; b ^= a; a ^= b; }
+
+    if(exclude)
+      return   (a > (b- epsilon) &&  a < (b + epsilon));
     else
-      if(exclude)
-        return std::fabs(a-b) < epsilon;
-      else
-        return std::fabs(a-b) <= epsilon;
+      return   (a >= (b- epsilon) &&  a <= (b + epsilon));
   }
 
   template< typename T >
