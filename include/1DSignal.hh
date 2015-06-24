@@ -53,6 +53,12 @@ namespace spl{
       return at_impl(traits_point_type(Signal1D<V>)(x));
     }
 
+    void operator=(const Signal1D<V>& p)
+    {
+      parent::operator=(p);
+      _data = &parent::data()[0];
+    }
+
     private:
 
     V& at_impl(const traits_point_type(Signal1D<V>)& p)

@@ -63,6 +63,7 @@ namespace spl{
     public:
     void operator=(const Signal3D<V>& p)
     {
+      parent::operator=(p);
       unsigned h= p.domain()[1];
       unsigned d= p.domain()[2];
       _data = new V** [d];
@@ -72,7 +73,6 @@ namespace spl{
         for(unsigned y=0; y < h; ++y)
           _data[z][y] = p._data[z][y];
       }
-      parent::operator=(p);
     }
     const unsigned width() const {return parent::_domain[0];}
     const unsigned height() const {return parent::_domain[1];}

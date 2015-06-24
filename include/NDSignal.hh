@@ -120,28 +120,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
         return __spl_impl(at)(p);
       }
 
-      // Gradient operators
-      inline traits_value_type(E) gradient(const traits_point_type(E) &p, unsigned i)
-      {
-        traits_point_type(E) q ;
-        for (unsigned j = 0 ; j < traits_domain_dim(E) ; j++)
-        {
-          if (j==i)
-            q[i] = ( p[i] == _domain[i]-1 ) ? p[i] : p[i]+1 ;
-          else
-            q[j] = p[j] ;
-        }
-        return (*this)[q] - (*this)[p] ;
-      }
-      inline std::vector<traits_value_type(E)> gradient(const traits_point_type(E) &p)
-      {
-        std::vector<traits_value_type(E)> g(traits_domain_dim(E)) ;
-        for (unsigned i = 0; i < traits_domain_dim(E); i++)
-        {
-          g[i] = gradient(p,i) ;
-        }
-        return g ;
-      }
+      //TODO: Move laplacian to spl::differentials (and check norms)
       // Laplacian operator
       inline traits_value_type(E) laplacian(const traits_point_type(E) &p)
       {
@@ -165,7 +144,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       {
         traits_value_type(E) n = 0 ;
         traits_iterator_type(E) it(_domain) ;
-        for_each_elements(it)
+        for_each_element(it)
           n += (*this)[it]*(*this)[it] ;
         return n ;
       }
@@ -174,7 +153,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       {
         traits_value_type(E) n = 0 ;
         traits_iterator_type(E) it(_domain) ;
-        for_each_elements(it)
+        for_each_element(it)
           n += std::abs((*this)[it]) ;
         return n ;
       }

@@ -45,7 +45,7 @@
       typedef DPoint<DPoint2D, 2> parent;
       DPoint2D(signed x, signed y) 
       : _x(_coords[0])
-      , _y(_coords[1])
+        , _y(_coords[1])
       {
         _x = x;
         _y = y;
