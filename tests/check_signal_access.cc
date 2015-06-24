@@ -3,7 +3,7 @@
 #include <iostream>
 #include <assert.h>
 #include "BoundMorpher.hh"
-
+#include "io/io.hh"
 int main()
 {
   // 2D Signal
@@ -23,6 +23,9 @@ int main()
 
     for_each_pixel(test, x, y)
     test(x,y) = arr_test[y][x];
+
+    for_each_pixel(test, x, y)
+    std::cout<<test(x,y)<<std::endl;
 
     for_each_pixel_par(test, x, y)
     test(x,y) = arr_test[y][x];

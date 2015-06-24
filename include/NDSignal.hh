@@ -33,6 +33,7 @@
 #define traits_domain_type_(E) spl::global::traits<E>::domain_type
 #define traits_sub_type_(E) spl::global::traits<E>::sub_type
 #define traits_iterator_type_(E) E::iterator
+#define traits_concrete_type_(E) spl::global::traits<E>::concrete_type
 
 #define traits_domain_dim(E) spl::global::traits<E>::domain_type::dim
 #define traits_domain_dims(E) spl::global::traits<E>::axis_dims()
@@ -73,7 +74,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
     for(it.begin();it.end();++it)
 
 #define traits_iterator_decl(sig, it)\
-  traits_iterator_type(decltype(sig)) it(sig.domain());
+  traits_iterator_type(std::decay<decltype(sig)>::type) it(sig.domain())
 
     /* **
      * NDSignal is a structure to represent every type of N dimension Signal
