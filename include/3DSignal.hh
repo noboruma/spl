@@ -105,6 +105,8 @@ namespace spl{
       return res;
     }
 
+    Signal3D();
+
     private:
     V ***_data;
 

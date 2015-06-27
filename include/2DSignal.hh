@@ -141,7 +141,7 @@ namespace spl{
         res(x,y) = (double)(*this)(x,y) / (double)b(x,y);
       return res;
     }
-
+    Signal2D();
     private:
     V **_data;
 

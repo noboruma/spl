@@ -40,7 +40,7 @@ namespace spl{
 
     Signal1D(unsigned w);
     Signal1D(Domain<1> dom);
-    Signal1D(const spl::Signal1D<V> &sig);
+    Signal1D(const spl::Signal1D<V>& sig);
 
 
     V& operator()(unsigned x) 
@@ -96,6 +96,9 @@ namespace spl{
       return ret;
     }
 
+
+    private:
+    Signal1D();
 
     private:
     V *_data;

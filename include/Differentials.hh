@@ -6,7 +6,7 @@
     {
       // Gradient (local operator -- one orientation)
       template <typename E>
-      traits_value_type(E) gradient(E sig,
+      traits_value_type(E) gradient(const E &sig,
                                     const traits_point_type(E) &p,
                                     unsigned i)
       {
@@ -23,7 +23,7 @@
 
       // Gradient (local operator -- all orientations)
       template <typename E>
-      Signal1D<traits_value_type(E)> gradient(E sig,
+      Signal1D<traits_value_type(E)> gradient(const E& sig,
                                               const traits_point_type(E) &p)
       {
         Signal1D<traits_value_type(E)> grad(traits_domain_dim(E)) ;
@@ -34,7 +34,7 @@
 
       // Gradient (global operator -- one orientation)
       template <typename E>
-      E gradient(E sig, unsigned i)
+      E gradient(const E& sig, unsigned i)
       {
         E out(sig.domain()) ;
         traits_iterator_type(E) it(sig.domain()) ;
@@ -45,12 +45,12 @@
 
       // Gradient (global operator -- all orientations)
       template <typename E>
-      Signal1D<E> gradient(E sig)
+      Signal1D<E> gradient(const E& sig)
       {
-        Signal1D<E> grad(traits_domain_dim(E)) ;
+        Signal1D<E> grad(traits_domain_dim(E));
         for_each_lin(grad,i)
-          grad(i) = gradient(sig,i) ;
-        return grad ;
+          grad(i) = gradient(sig,i);
+        return grad;
       }
 
 //      template <typename E>
