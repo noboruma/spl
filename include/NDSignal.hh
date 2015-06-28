@@ -88,6 +88,9 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       template<unsigned dim>
       NDSignal(const Domain<dim> dom);
 
+      template<unsigned dim, typename ... Args>
+      NDSignal(const Domain<dim> dom, Args ... args);
+
       // Down grade
       template<unsigned dim, typename V>
       NDSignal(const Domain<dim> dom, const NDSignal<V> &p)
@@ -190,7 +193,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       protected:
       traits_domain_type(E) _domain;
       private:
-      std::shared_ptr<char> _contiguous_data;
+      std::shared_ptr<traits_value_type(E)> _contiguous_data;
 
       template<typename S>
       friend class BoundMorpher;

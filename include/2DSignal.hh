@@ -37,7 +37,11 @@ namespace spl{
     typedef NDSignal<Signal2D<V> > parent;
 
     Signal2D(unsigned w, unsigned h);
+
+    template<typename ... Args>
+    Signal2D(Domain<2> dom, Args... args);
     Signal2D(Domain<2> dom);
+
     Signal2D(const Signal2D<V>& s);
     Signal2D(traits_domain_type(Signal2D<V>) dom,
              const spl::NDSignal<Signal3D<V> > &p,

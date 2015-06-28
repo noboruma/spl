@@ -47,7 +47,7 @@
       template <typename E>
       Signal1D<E> gradient(const E& sig)
       {
-        Signal1D<E> grad(traits_domain_dim(E));
+        Signal1D<E> grad(traits_domain_dim(E), sig.domain());
         for_each_lin(grad,i)
           grad(i) = gradient(sig,i);
         return grad;
