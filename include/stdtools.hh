@@ -124,6 +124,13 @@ namespace std
     }
   }
 
+  template <typename T>
+  std::string to_string_with_precision(const T &a_value, const unsigned precision = 2)
+  {
+    std::ostringstream out;
+    out << std::setprecision(precision) << a_value;
+    return out.str();
+  }
 }
 
 #endif
