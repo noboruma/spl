@@ -42,20 +42,6 @@
 
     // =======================================================================
     template<typename V>
-    template<typename ... Args>
-    Signal2D<V>::Signal2D(Domain<2> dom, Args ... args)
-    : parent(dom, args...)
-    {
-      unsigned w = dom[0];
-      unsigned h = dom[1];
-
-      _data = new V* [h];
-      for(unsigned y=0; y < h; ++y)
-        _data[y] = &parent::data()[y*w];
-    }
-
-    // =======================================================================
-    template<typename V>
     Signal2D<V>::Signal2D(const Signal2D<V> &s)
     : parent(s)
     {

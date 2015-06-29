@@ -38,12 +38,8 @@ namespace spl{
   {
     typedef NDSignal<Signal1D<V> > parent;
 
-    template<typename ... Args>
-    Signal1D(unsigned w, Args ... args);
     Signal1D(unsigned w);
 
-    template<typename ... Args>
-    Signal1D(Domain<1> dom, Args... args);
     Signal1D(Domain<1> dom);
 
     Signal1D(const spl::Signal1D<V>& sig);
