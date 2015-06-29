@@ -118,6 +118,35 @@
     };
 
 
+    template<typename S>
+    struct ThresholderMask
+    {
+      ThresholderMask(const spl::NDSignal<S>& sig, traits_value_type(S) threshold
+                                             , traits_value_type(S) upperbound=0
+                                             , traits_value_type(S) lowerbound=0)
+      : _sig(sig)
+      , _res(sig.domain())
+      , _threshold(threshold)
+      , _upperbound(upperbound)
+      , _lowerbound(lowerbound)
+      {}
+
+      void operator()()
+      {
+        traits_iterator_decl(_res, it);
+        for_each_element(it)
+          _res[it] = _sig[it] >= _lowerbound+_threshold && _sig[it] <= _upperbound+_threshold;
+      }
+
+      const NDSignal<S> &res() {return _res;}
+
+      private:
+      const NDSignal<S> &_sig;
+      mute(S,bool) _res;
+      traits_value_type(S) _threshold;
+      traits_value_type(S) _upperbound;
+      traits_value_type(S) _lowerbound;
+    };
 
     namespace ct
     {
