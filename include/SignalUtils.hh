@@ -2,6 +2,8 @@
 # define SPL_SIGNAL_UTILS_HH
 
 #include "NDSignal.hh"
+#include "3DSignal.hh"
+#include "BoundMorpher.hh"
 #include <functional>
 #include <list>
 
@@ -138,7 +140,8 @@
           _res[it] = _sig[it] >= _lowerbound+_threshold && _sig[it] <= _upperbound+_threshold;
       }
 
-      const NDSignal<S> &res() {return _res;}
+      const mute(S,bool) &res() const {return _res;}
+      mute(S,bool) &res() {return _res;}
 
       private:
       const NDSignal<S> &_sig;
