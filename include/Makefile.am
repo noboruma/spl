@@ -30,8 +30,7 @@ spl_HEADERS = 1DSignal.hh\
 							Upsampler.hh\
 							Filter.hh\
 							MedianFilter.hh\
-							Downsampler.hh\
-							utils.hh
+							Downsampler.hh
 
 cl_HEADERS = cl/2DSignal.hh\
 						 cl/2DSignal.hxx\

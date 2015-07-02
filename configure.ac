@@ -18,6 +18,7 @@ AC_CONFIG_FILES([
   Makefile
   include/Makefile
   tests/Makefile
+  tools/Makefile
 ])
 
 ## Add --enable-debug
