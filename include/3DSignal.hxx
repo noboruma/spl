@@ -21,7 +21,6 @@
     Signal3D<V>::Signal3D(Domain<3> dom)
     : parent(dom)
     {
-      unsigned w = dom[0];
       unsigned h = dom[1];
       unsigned d = dom[2];
       _data = new V** [d];
