@@ -35,6 +35,23 @@
 
     // =======================================================================
     template<typename V>
+    Signal3D<V>::Signal3D(const Signal3D<V>& s)
+    : parent(s)
+    {
+      unsigned w = s.domain()[0];
+      unsigned h = s.domain()[1];
+      unsigned d = s.domain()[2];
+      _data = new V** [d];
+      for(unsigned z=0; z < d; ++z)
+      {
+        _data[z] = new V*[h]; 
+        for(unsigned y=0; y < h; ++y)
+          _data[z][y] = &parent::data()[y*w + z*w*h];
+      }
+    }
+
+    // =======================================================================
+    template<typename V>
     Signal3D<V>::~Signal3D()
     {
       for(unsigned i=0; i < parent::_domain[2]; ++i)
