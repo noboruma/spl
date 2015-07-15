@@ -116,8 +116,8 @@ namespace spl{
     }
 
     public:
-    const unsigned width() const {return parent::_domain[0];}
-    const unsigned height() const {return parent::_domain[1];}
+    unsigned width() const {return parent::_domain[0];}
+    unsigned height() const {return parent::_domain[1];}
 
     operator const V**() const
     {

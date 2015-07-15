@@ -42,7 +42,7 @@
 
       unsigned& operator[](unsigned p) {return bounds[p];};
 
-      const unsigned prod() const
+      unsigned prod() const
       {
         unsigned prod = bounds[0];
         for(unsigned i=1; i < DIM; ++i)

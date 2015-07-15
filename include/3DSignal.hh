@@ -74,9 +74,9 @@ namespace spl{
           _data[z][y] = p._data[z][y];
       }
     }
-    const unsigned width() const {return parent::_domain[0];}
-    const unsigned height() const {return parent::_domain[1];}
-    const unsigned depth() const {return parent::_domain[2];}
+    unsigned width() const {return parent::_domain[0];}
+    unsigned height() const {return parent::_domain[1];}
+    unsigned depth() const {return parent::_domain[2];}
 
     operator std::vector<V*>();
 

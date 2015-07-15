@@ -75,7 +75,7 @@ namespace spl{
 
     public:
 
-    const unsigned length() const 
+    unsigned length() const 
     {
       return parent::_domain[0];
     }
