@@ -94,10 +94,8 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
       template<unsigned dim, typename V>
       NDSignal(const Domain<dim> dom, const NDSignal<V> &p)
       : _domain(dom)
-      , _contiguous_data(nullptr)
-      {
-        _contiguous_data = p._contiguous_data;
-      }
+      , _contiguous_data(p._contiguous_data)
+      {}
 
       /**
        * Weak copy

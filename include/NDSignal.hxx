@@ -28,13 +28,13 @@
       //std::allocator<traits_value_type(E)> a;
       //auto p = a.allocate(dom.prod());
       //a.construct(p, args...); // Make this more feneric (ie : args[0] and recursive call...)
-      auto *p = new char[dom.prod()*sizeof(traits_value_type(E))];
-      _contiguous_data.reset((traits_value_type(E)*)p,
-                             std::default_delete<traits_value_type(E)>());// TODO: understand why it does not require [] delete (Valgrind might be fooled)
+      _contiguous_data.reset((traits_value_type(E)*)new char[dom.prod()*sizeof(traits_value_type(E))],
+                             [](traits_value_type(E)* p){delete [] (char*) p;});
+      auto *p = _contiguous_data.get();
       for(size_t e=0; e < dom.prod(); ++e)
       {
         new(p) traits_value_type(E)(args...);
-        p+= sizeof(traits_value_type(E));
+        ++p;
       }
     }
 

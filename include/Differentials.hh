@@ -56,7 +56,6 @@
         Signal1D<E> grad(traits_domain_dim(E), sig.domain());
         for_each_lin(grad,i)
         {
-          std::cout << "life" << std::endl ;
           const E& tmp = gradient<E>(sig,i);
           std::cout << tmp(15,15) << std::endl ;
           for_each_pixel(grad(i),x,y)
