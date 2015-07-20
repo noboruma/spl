@@ -29,7 +29,14 @@
       //auto p = a.allocate(dom.prod());
       //a.construct(p, args...); // Make this more feneric (ie : args[0] and recursive call...)
       _contiguous_data.reset((traits_value_type(E)*)new char[dom.prod()*sizeof(traits_value_type(E))],
-                             [](traits_value_type(E)* p){delete [] (char*) p;});
+                             [this](traits_value_type(E)* p)
+                             {
+                               typedef traits_value_type(E) value_type;
+                               auto *r = p;
+                               for(size_t s=0; s < domain().prod(); ++s)
+                                 r++->~value_type();
+                               delete [] (char*) p;
+                             });
       auto *p = _contiguous_data.get();
       for(size_t e=0; e < dom.prod(); ++e)
       {
