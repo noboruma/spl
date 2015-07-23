@@ -63,6 +63,7 @@ namespace spl{
     public:
     void operator=(const Signal3D<V>& p)
     {
+      Signal3D::~Signal3D();
       parent::operator=(p);
       unsigned h= p.domain()[1];
       unsigned d= p.domain()[2];

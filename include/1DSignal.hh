@@ -57,8 +57,9 @@ namespace spl{
 
     void operator=(const Signal1D<V>& p)
     {
+      Signal1D::~Signal1D();
       parent::operator=(p);
-      _data = &parent::data()[0];
+      _data = p._data;
     }
 
     private:

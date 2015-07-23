@@ -61,11 +61,12 @@ namespace spl{
 
     void operator=(const Signal2D<V>& p)
     {
+      Signal2D::~Signal2D();
       parent::operator=(p);
       unsigned h= p.domain()[1];
       _data = new V* [h];
       for(unsigned y=0; y < h; ++y)
-        _data[y] = &parent::data()[y*h];
+        _data[y] = p._data[y];
     }
 
 
