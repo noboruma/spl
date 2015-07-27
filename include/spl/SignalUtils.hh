@@ -21,7 +21,7 @@
       {}
 
       void operator()();
-      void operator()(const mute(S,bool)& mask);
+      void operator()(const mutate(S,bool)& mask);
 
 
       inline const traits_point_type(S) &res_point() {return _coord;}
@@ -140,12 +140,12 @@
           _res[it] = _sig[it] >= _lowerbound+_threshold && _sig[it] <= _upperbound+_threshold;
       }
 
-      const mute(S,bool) &res() const {return _res;}
-      mute(S,bool) &res() {return _res;}
+      const mutate(S,bool) &res() const {return _res;}
+      mutate(S,bool) &res() {return _res;}
 
       private:
       const NDSignal<S> &_sig;
-      mute(S,bool) _res;
+      mutate(S,bool) _res;
       traits_value_type(S) _threshold;
       traits_value_type(S) _upperbound;
       traits_value_type(S) _lowerbound;

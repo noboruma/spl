@@ -24,7 +24,7 @@
 
     // =====================================================================
     template<typename S, template <typename> class Compare >
-    void Extremum<S,Compare>::operator()(const mute(S,bool)& mask)
+    void Extremum<S,Compare>::operator()(const mutate(S,bool)& mask)
     {
       const Compare<traits_value_type(S)> cmp 
       = Compare<traits_value_type(S)>();

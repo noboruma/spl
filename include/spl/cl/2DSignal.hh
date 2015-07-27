@@ -27,7 +27,7 @@ namespace spl
       };
 
     template<typename oldType, typename newVal>
-      struct mute<cl::Signal2D<oldType>,oldType,newVal>
+      struct mutate<cl::Signal2D<oldType>,oldType,newVal>
       {
         typedef cl::Signal2D<newVal> res;
       };
