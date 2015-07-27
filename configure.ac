@@ -1,7 +1,7 @@
 AC_INIT([spl], [1.0], [legris.thomas@gmail.com])
 AC_CONFIG_AUX_DIR([build-aux])
 #AC_PREREQ([1.0])
-AC_CONFIG_SRCDIR([include/NDSignal.hh])
+AC_CONFIG_SRCDIR([include/spl/NDSignal.hh])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 PKG_CHECK_MODULES([CHECK], [check >= 0.9.8])

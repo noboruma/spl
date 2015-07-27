@@ -1,40 +1,39 @@
 SUBDIRS = .
-spldir=spl
-cldir=spl/cl
-spl_HEADERS = 1DSignal.hh\
-							1DSignal.hxx\
-							2DSignal.hh\
-							2DSignal.hxx\
-							3DSignal.hh\
-							3DSignal.hxx\
-							any.hh\
-							BoundMorpher.hh\
-							BoundMorpher.hxx\
-							Domain.hh\
-							DPoint.hh\
-							DPoint.hxx\
-							Exceptions.hh\
-							Histogram.hh\
-							Iterator.hh\
-							Makefile.am\
-							Makefile.in\
-							Mean.hh\
-							Mean.hxx\
-							NDSignal.hh\
-							NDSignal.hxx\
-							Point.hh\
-							Point.hxx\
-							SignalUtils.hh\
-							SignalUtils.hxx\
-							stdtools.hh\
-							Upsampler.hh\
-							Filter.hh\
-							MedianFilter.hh\
-							Downsampler.hh\
-							Differentials.hh\
-							utils.hh
 
-cl_HEADERS = cl/2DSignal.hh\
-						 cl/2DSignal.hxx\
-						 cl/CLSignal.hh\
-						 cl/CLSignal.hxx
+nobase_include_HEADERS = spl/1DSignal.hh\
+												 spl/1DSignal.hxx\
+												 spl/2DSignal.hh\
+												 spl/2DSignal.hxx\
+												 spl/3DSignal.hh\
+												 spl/3DSignal.hxx\
+												 spl/any.hh\
+												 spl/BoundMorpher.hh\
+												 spl/BoundMorpher.hxx\
+												 spl/Domain.hh\
+												 spl/DPoint.hh\
+												 spl/DPoint.hxx\
+												 spl/Exceptions.hh\
+												 spl/Histogram.hh\
+												 spl/Iterator.hh\
+												 spl/Makefile.am\
+												 spl/Makefile.in\
+												 spl/Mean.hh\
+												 spl/Mean.hxx\
+												 spl/NDSignal.hh\
+												 spl/NDSignal.hxx\
+												 spl/Point.hh\
+												 spl/Point.hxx\
+												 spl/SignalUtils.hh\
+												 spl/SignalUtils.hxx\
+												 spl/stdtools.hh\
+												 spl/Upsampler.hh\
+												 spl/Filter.hh\
+												 spl/MedianFilter.hh\
+												 spl/Downsampler.hh\
+												 spl/Differentials.hh\
+												 spl/utils.hh\
+												 \
+												 spl/cl/2DSignal.hh\
+												 spl/cl/2DSignal.hxx\
+												 spl/cl/CLSignal.hh\
+												 spl/cl/CLSignal.hxx
