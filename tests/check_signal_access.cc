@@ -1,9 +1,9 @@
-#include "2DSignal.hh"
-#include "3DSignal.hh"
+#include "spl/2DSignal.hh"
+#include "spl/3DSignal.hh"
 #include <iostream>
 #include <assert.h>
-#include "BoundMorpher.hh"
-#include "io/io.hh"
+#include "spl/BoundMorpher.hh"
+#include "spl/io/io.hh"
 int main()
 {
   // 2D Signal

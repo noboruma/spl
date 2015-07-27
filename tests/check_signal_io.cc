@@ -1,7 +1,7 @@
-#include "2DSignal.hh"
+#include "spl/2DSignal.hh"
 #include <iostream>
 #include <assert.h>
-#include "io/io.hh"
+#include "spl/io/io.hh"
 int main()
 {
   // 2D Signal

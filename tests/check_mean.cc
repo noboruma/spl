@@ -1,7 +1,7 @@
-#include "3DSignal.hh"
+#include "spl/3DSignal.hh"
 #include <iostream>
-#include "BoundMorpher.hh"
-#include "Mean.hh"
+#include "spl/BoundMorpher.hh"
+#include "spl/Mean.hh"
 #include <assert.h>
 
 int main()

@@ -4,8 +4,8 @@
 // vim: set foldenable :
 
 //#include "cl/2DSignal.hh"
-#include "cl/ExternalProcess.hh"
-#include "../include/2DSignal.hh"
+#include "spl/cl/ExternalProcess.hh"
+#include "spl/2DSignal.hh"
 #include <iostream>
 #include <assert.h>
 #include <fstream>

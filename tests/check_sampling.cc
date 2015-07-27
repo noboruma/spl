@@ -1,9 +1,9 @@
-#include "3DSignal.hh"
+#include "spl/3DSignal.hh"
 #include <iostream>
-#include "BoundMorpher.hh"
-#include "Upsampler.hh"
-#include "Downsampler.hh"
-#include "SignalUtils.hh"
+#include "spl/BoundMorpher.hh"
+#include "spl/Upsampler.hh"
+#include "spl/Downsampler.hh"
+#include "spl/SignalUtils.hh"
 #include <assert.h>
 
 int main()

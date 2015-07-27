@@ -1,7 +1,7 @@
-#include "2DSignal.hh"
+#include "spl/2DSignal.hh"
 #include <iostream>
 #include <assert.h>
-#include "Histogram.hh"
+#include "spl/Histogram.hh"
 
 int main()
 {
