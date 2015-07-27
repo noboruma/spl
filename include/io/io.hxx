@@ -17,6 +17,8 @@ namespace spl
       void load(const std::string& file, NDSignal<S>& out)
       {
         std::ifstream in(file, std::ios::in);
+        if(in.fail())
+          throw std::runtime_error(file+" not reachable");
         traits_iterator_decl(out, it);
         char delim;
         for_each_element(it)
@@ -42,6 +44,8 @@ namespace spl
       void load(const std::string& file, NDSignal<S>& out, const size_t byte_offset)
       {
         std::ifstream in(file, std::ios::in | std::ios::binary );
+        if(in.fail())
+          throw std::runtime_error(file+" not reachable");
         in.seekg(byte_offset);
         traits_iterator_decl(out, it);
         //unsafe
