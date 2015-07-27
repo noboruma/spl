@@ -1,6 +1,6 @@
-#include "spl/2DSignal.hh"
-#include "spl/3DSignal.hh"
-#include "spl/SignalUtils.hh"
+#include "2DSignal.hh"
+#include "3DSignal.hh"
+#include "SignalUtils.hh"
 #include <iostream>
 #include <assert.h>
 

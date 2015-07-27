@@ -1,9 +1,8 @@
-
-#include "spl/2DSignal.hh"
+#include "2DSignal.hh"
 #include <iostream>
 #include <assert.h>
-#include "spl/Differentials.hh"
-#include "splio/io.hh"
+#include "Differentials.hh"
+#include "io/io.hh"
 
 int main()
 {
