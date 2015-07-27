@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_SRCDIR([include/NDSignal.hh])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
-PKG_CHECK_MODULES([CHECK], [check >= 0.9.8])
+#PKG_CHECK_MODULES([CHECK], [check >= 0.9.8])
 #check/Makefile
 
 # enable library creation
