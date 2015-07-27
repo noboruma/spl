@@ -26,9 +26,9 @@
       };
 
       template<typename oldType, typename newVal>
-      struct mute<BoundMorpher<oldType>,oldType,newVal>
+      struct mutate<BoundMorpher<oldType>,oldType,newVal>
       {
-        typedef typename mute<oldType, traits_value_type(oldType), newVal>::res res;
+        typedef typename mutate<oldType, traits_value_type(oldType), newVal>::res res;
       };
     }//!global
 

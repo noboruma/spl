@@ -17,7 +17,7 @@
       template<typename E>
       struct traits;
       template<typename E, typename oV, typename V>
-      struct mute;
+      struct mutate;
     }// !global
 
 #define traits_value_type(E) typename spl::global::traits<E>::value_type
@@ -37,9 +37,9 @@
 #define traits_domain_dim(E) spl::global::traits<E>::domain_type::dim
 #define traits_domain_dims(E) spl::global::traits<E>::axis_dims()
 
-#define traits_mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
-#define mute(TplType, newValueType) typename spl::global::mute<TplType, traits_value_type(TplType), newValueType>::res
-#define mute_(TplType, newValueType) spl::global::mute<TplType, traits_value_type_(TplType), newValueType>::res
+#define traits_mutate(TplType, newValueType) typename spl::global::mutate<TplType, traits_value_type(TplType), newValueType>::res
+#define mutate(TplType, newValueType) typename spl::global::mutate<TplType, traits_value_type(TplType), newValueType>::res
+#define mutate_(TplType, newValueType) spl::global::mutate<TplType, traits_value_type_(TplType), newValueType>::res
 
 #define for_each_lin(sig,i)\
     for(unsigned i=0; i < sig.length(); ++i)
@@ -173,7 +173,7 @@ for(unsigned k=0; k < vol.domain()[2]; ++k)\
         return __spl_impl(clone)();
       }
 
-      inline const mute(traits_concrete_type(E),double) operator/ (const traits_concrete_type(E) &b) const
+      inline const mutate(traits_concrete_type(E),double) operator/ (const traits_concrete_type(E) &b) const
       {
         return __spl_impl(div_comp_wise)(b);
       }

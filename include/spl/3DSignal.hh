@@ -23,7 +23,7 @@ namespace spl{
         //constexpr auto axis_dims() {return std::make_index_sequence<3>();}
       };
     template<typename oldType, typename newVal>
-      struct mute<Signal3D<oldType>,oldType,newVal>
+      struct mutate<Signal3D<oldType>,oldType,newVal>
       {
         typedef Signal3D<newVal> res;
       };

@@ -19,7 +19,7 @@
       {}
 
       void operator()();
-      void operator()(const mute(S,bool)& mask);
+      void operator()(const mutate(S,bool)& mask);
 
 
       inline const traits_point_type(S) &res_point() {return _coord;}
@@ -142,7 +142,7 @@
 
       private:
       const NDSignal<S> &_sig;
-      mute(S,bool) _res;
+      mutate(S,bool) _res;
       traits_value_type(S) _threshold;
       traits_value_type(S) _upperbound;
       traits_value_type(S) _lowerbound;

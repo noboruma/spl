@@ -28,7 +28,7 @@
       {
         Mean(const IS& signal);
         void operator()();
-        typedef mute(traits_sub_type(IS), RT) sub_type;
+        typedef mutate(traits_sub_type(IS), RT) sub_type;
         const sub_type &res() {return *_res;}
 
         private:
