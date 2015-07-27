@@ -82,7 +82,7 @@ namespace spl
 
 
     template<typename T, template<typename> class M>
-    struct mute;  
+    struct mutate;  
 
     //template <typename T, typename Y>
     //struct transform
@@ -91,7 +91,7 @@ namespace spl
     //};
 
     template<typename ...T, template<typename U> class M>
-    struct mute<std::tuple<T...>, M>  
+    struct mutate<std::tuple<T...>, M>  
     {
       using type = std::tuple<typename M<T>::type...>;
     };

@@ -23,7 +23,7 @@ namespace spl{
       };
 
     template<typename oldType, typename newVal>
-      struct mute<Signal1D<oldType>,oldType,newVal>
+      struct mutate<Signal1D<oldType>,oldType,newVal>
       {
         typedef Signal1D<newVal> res;
       };

@@ -65,7 +65,7 @@ int main()
     typedef spl::Signal3D<value_type> signal;
     traits_domain_type_(signal) dom(cwidth, cheight, cdepth);
     signal test(dom);
-    mute_(signal, bool) mask(dom);
+    mutate_(signal, bool) mask(dom);
 
     char arr_test [cdepth][cheight][cwidth] = 
     {
