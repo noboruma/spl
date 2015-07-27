@@ -26,7 +26,7 @@ namespace spl
       void save(const std::string& file, const NDSignal<S>& in);
 
       template<typename S>
-      void load(const std::string& file, NDSignal<S>& out);
+      void load(const std::string& file, NDSignal<S>& out, const size_t byte_offset=0);
     } //!raw
   } //!io
 } //!spl

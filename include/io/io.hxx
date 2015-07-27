@@ -39,9 +39,10 @@ namespace spl
       }
 
       template<typename S>
-      void load(const std::string& file, NDSignal<S>& out)
+      void load(const std::string& file, NDSignal<S>& out, const size_t byte_offset)
       {
         std::ifstream in(file, std::ios::in | std::ios::binary );
+        in.seekg(byte_offset);
         traits_iterator_decl(out, it);
         //unsafe
         in.read((char*)&out[it], out.domain().prod()*sizeof(traits_value_type(S)));
