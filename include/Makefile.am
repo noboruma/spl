@@ -29,6 +29,7 @@ nobase_include_HEADERS = \
 							spl/Filter.hh\
 							spl/MedianFilter.hh\
 							spl/Downsampler.hh\
+							spl/Differentials.hh
 							\
 							spl/cl/2DSignal.hh\
 							spl/cl/2DSignal.hxx\
