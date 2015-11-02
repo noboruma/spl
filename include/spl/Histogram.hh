@@ -37,54 +37,135 @@
     template<typename V, unsigned bin_size, unsigned N = (sizeof(V)*8) - bin_size, bool save_memory_space=false>
     struct BinHistogram;
 
-    template<typename V, unsigned bin_size, unsigned N>
-    struct BinHistogram<V, bin_size, N, true>
+    template<typename V, typename L>
+    struct BinHistogramBase
     {
-
-      BinHistogram(V start_index=0)
-      : _start_index(start_index)
-        , _layers(1<<bin_size, NULL)
-      {}
-
-      unsigned& operator[](V val_index)
-      {
-        if(!_layers[val_index / (1 << bin_size)])
+      BinHistogramBase() : _max(0) {}
+        void inc(V val_index)
         {
-          std::cout<< N<<std::endl;
-          _layers[val_index / (1 << bin_size)] = new BinHistogram<V,bin_size, N - bin_size,true>(_start_index+( (val_index / (1 << bin_size)) * (1 << bin_size)));
+          (static_cast<L*>(this)->operator[](val_index)).inc(val_index);
+          ++_max;
         }
 
-        return (*_layers[val_index / (1 << bin_size)])[val_index];
-      }
+        void dec(V val_index)
+        {
+          (static_cast<L*>(this)->operator[](val_index)).dec(val_index);
+          --_max;
+        }
+       
 
-      private:
-      V _start_index;
-      std::vector<BinHistogram<V,bin_size, N - bin_size, true>*> _layers;
-
+        unsigned _max;
     };
 
     template<typename V, unsigned bin_size, unsigned N>
-    struct BinHistogram<V,bin_size,N,false>
+    struct BinHistogram<V, bin_size, N, true> : BinHistogramBase<V, BinHistogram<V, bin_size, N, true>>
     {
+      typedef BinHistogramBase<V, BinHistogram<V, bin_size, N, true>> parent;
 
       BinHistogram(V start_index=0)
-      : _start_index(start_index)
-        , _layers()
+      : parent()
+      , _start_index(start_index)
+      , _layers(1<<bin_size, NULL)
+      {}
+
+      BinHistogram<V,bin_size, N - bin_size, true>& operator[](V val_index)
+      {
+        unsigned val_bin = val_index / (1 << bin_size);
+        if(!_layers[val_bin])
+        {
+          _layers[val_bin] = new BinHistogram<V,bin_size, N - bin_size,true>(_start_index+( val_bin * (1 << bin_size)));
+        }
+
+        return *_layers[val_bin];
+      }
+
+      V median() const
+      {
+        unsigned middle  = parent::_max / 2 + ((parent::_max % 2 == 0) ? 0 : 1);
+        unsigned middle_bin = middle / (1 << bin_size);
+        unsigned sub_middle = 0;
+        for (unsigned i=0; i < middle_bin; ++i)
+          sub_middle += _layers[i]->_max;
+
+        return _layers[middle_bin]->nth_element(middle-sub_middle);
+
+      }
+
+      private:
+      V nth_element(unsigned middle) const
+      {
+        unsigned middle_bin = middle / (1 << bin_size);
+        unsigned sub_middle = 0;
+        for (unsigned i=0; i < middle_bin; ++i)
+          sub_middle += _layers[i]->_max;
+
+        return _layers[middle_bin]->nth_element(middle-sub_middle);
+      }
+
+      V _start_index;
+      std::vector<BinHistogram<V,bin_size, N - bin_size, true>*> _layers;
+
+      template<typename a, unsigned b, unsigned c, bool d>
+      friend struct BinHistogram;
+    };
+
+    template<typename V, unsigned bin_size, unsigned N>
+    struct BinHistogram<V, bin_size, N, false> : BinHistogramBase<V, BinHistogram<V, bin_size, N, false>>
+    {
+
+      typedef BinHistogramBase<V, BinHistogram<V, bin_size, N, false>> parent;
+
+      BinHistogram(V start_index=0)
+      : parent()
+      , _start_index(start_index)
+      , _layers()
       {
         for(unsigned i=0; i < (1 << bin_size); ++i)
           _layers.push_back(i*((1 << bin_size))+_start_index);
       }
 
-      unsigned& operator[](V val_index)
+
+      BinHistogram<V,bin_size, N - bin_size, false>& operator[](V val_index)
       {
-        return _layers[val_index / (1 << bin_size)][val_index];
+        return _layers[val_index / (1 << bin_size)];
+      }
+
+      V median() const
+      {
+        unsigned middle  = parent::_max / 2 + ((parent::_max % 2 == 0) ? 0 : 1);
+        unsigned middle_bin = middle / (1 << bin_size);
+        unsigned sub_middle = 0;
+        for (unsigned i=0; i < middle_bin; ++i)
+          sub_middle += _layers[i]._max;
+
+        return _layers[middle_bin].nth_element(middle-sub_middle);
+
+      }
+
+      private:
+      V nth_element(unsigned middle) const
+      {
+        unsigned middle_bin = middle / (1 << bin_size);
+        unsigned sub_middle = 0;
+        for (unsigned i=0; i < middle_bin; ++i)
+          sub_middle += _layers[i]._max;
+
+        return _layers[middle_bin].nth_element(middle-sub_middle);
       }
 
       private:
       V _start_index;
       std::vector<BinHistogram<V,bin_size, N - bin_size, false>> _layers;
 
+      public:
+      unsigned _max;
+
+      template<typename a, unsigned b, unsigned c, bool d>
+      friend struct BinHistogram;
+
     };
+
+    ///LEAVES
 
     namespace helper 
     {
@@ -94,8 +175,51 @@
 
         BinHistogram(V start_index=0)
         : _start_index(start_index)
-          , _final_layer(bin_size)
+        , _final_layer(1 << bin_size, 0)
+        , _max(0)
         {}
+
+        void inc(V val_index)
+        {
+          ++(*this)[val_index];
+          ++_max;
+        }
+
+        void dec(V val_index)
+        {
+          --(*this)[val_index];
+          --_max;
+        }
+
+        V median() const
+        {
+          unsigned i = 0;
+          assert(i < _final_layer.size());
+          unsigned counter = _final_layer[i];
+          unsigned middle  = _max / 2 + ((_max % 2 == 0) ? 0 : 1);
+          
+          while(counter < middle)
+          {
+            ++i;
+            assert(i < _final_layer.size());
+            counter += _final_layer[i];
+          }
+          return i;
+        }
+
+        V nth_element(unsigned middle) const
+        {
+          unsigned i=0, sum = 0;
+          middle -= _final_layer[i];
+          while(sum < middle)
+          {
+            ++i;
+            assert(i < _final_layer.size());
+            sum += _final_layer[i];
+          }
+          return _start_index+i;
+        }
+
 
         unsigned& operator[](V val_index)
         {
@@ -103,9 +227,14 @@
         }
 
         protected:
-
         V _start_index;
         std::vector<unsigned> _final_layer;
+
+        public:
+        unsigned _max;
+
+        //template<typename a, unsigned b, unsigned c, bool d>
+        //friend struct BinHistogram;
 
       };
 
@@ -114,13 +243,13 @@
     template<typename V, unsigned bin_size>
     struct BinHistogram<V, bin_size, 0, false> : helper::BinHistogram<V, bin_size>
     {
-      BinHistogram(V start_index) :  helper::BinHistogram<V, bin_size>(start_index) {}
+      BinHistogram(V start_index=0) :  helper::BinHistogram<V, bin_size>(start_index) {}
     };
 
     template<typename V, unsigned bin_size>
     struct BinHistogram<V, bin_size, 0, true> : helper::BinHistogram<V, bin_size>
     {
-      BinHistogram(V start_index) :  helper::BinHistogram<V, bin_size>(start_index) {}
+      BinHistogram(V start_index=0) :  helper::BinHistogram<V, bin_size>(start_index) {}
     };
 
   }
