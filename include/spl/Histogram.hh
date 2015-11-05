@@ -32,6 +32,7 @@
     };
   }//!spl
  
+ 
   namespace external
   {
     template<typename V, unsigned bin_size, unsigned N = (sizeof(V)*8) - bin_size, bool save_memory_space=false>
@@ -41,16 +42,16 @@
     struct BinHistogramBase
     {
       BinHistogramBase() : _max(0) {}
-        void inc(V val_index)
+        void inc(V val_index, unsigned num=1)
         {
-          (static_cast<L*>(this)->operator[](val_index)).inc(val_index);
-          ++_max;
+          (static_cast<L*>(this)->operator[](val_index)).inc(val_index, num);
+          _max += num;
         }
 
-        void dec(V val_index)
+        void dec(V val_index, unsigned num=1)
         {
-          (static_cast<L*>(this)->operator[](val_index)).dec(val_index);
-          --_max;
+          (static_cast<L*>(this)->operator[](val_index)).dec(val_index, num);
+          _max -= num;
         }
        
 
@@ -67,6 +68,31 @@
       , _start_index(start_index)
       , _layers(1<<bin_size, NULL)
       {}
+
+      void operator-=(const BinHistogram<V, bin_size, N, true>& c)
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)//TODO: memory alloc
+          _layers[i] -= c->_layers[i];
+        parent::_max -= c->_max;
+      }
+
+      void operator+=(const BinHistogram<V, bin_size, N, true>& c)
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)//TODO: memory alloc
+          _layers[i] += c->_layers[i];
+        parent::_max += c->_max;
+      }
+      void clear()
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)
+          if(_layers[i])
+          {
+            _layers[i]->clear();//TODO: clean useless leaf = 0
+            delete _layers[i];
+            _layers[i] = NULL;
+          }
+        parent::_max = 0 ;
+      }
 
       BinHistogram<V,bin_size, N - bin_size, true>& operator[](V val_index)
       {
@@ -130,27 +156,53 @@
         return _layers[val_index / (1 << bin_size)];
       }
 
+      void operator-=(const BinHistogram<V, bin_size, N, false>& c)
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)
+          _layers[i] -= c._layers[i];
+        parent::_max -= c._max;
+      }
+
+      void operator+=(const BinHistogram<V, bin_size, N, false>& c)
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)
+          _layers[i] += c._layers[i];
+        parent::_max += c._max;
+      }
+      void clear()
+      {
+        for(unsigned i=0; i < _layers.size(); ++i)
+          _layers[i].clear();
+        parent::_max = 0 ;
+      }
+
       V median() const
       {
         unsigned middle  = parent::_max / 2 + ((parent::_max % 2 == 0) ? 0 : 1);
-        unsigned middle_bin = middle / (1 << bin_size);
+        unsigned i = 0; //middle / (1 << bin_size);
         unsigned sub_middle = 0;
-        for (unsigned i=0; i < middle_bin; ++i)
+        while(sub_middle+_layers[i]._max < middle)
+        {
           sub_middle += _layers[i]._max;
-
-        return _layers[middle_bin].nth_element(middle-sub_middle);
-
+          ++i;
+          assert(i < _layers.size());
+        }
+        return _layers[i].nth_element(middle-sub_middle);
       }
 
       private:
       V nth_element(unsigned middle) const
       {
-        unsigned middle_bin = middle / (1 << bin_size);
-        unsigned sub_middle = 0;
-        for (unsigned i=0; i < middle_bin; ++i)
-          sub_middle += _layers[i]._max;
 
-        return _layers[middle_bin].nth_element(middle-sub_middle);
+        unsigned i = 0; //middle / (1 << bin_size);
+        unsigned sub_middle = 0;
+        while(sub_middle+_layers[i]._max < middle)
+        {
+          sub_middle += _layers[i]._max;
+          ++i;
+          assert(i < _layers.size());
+        }
+        return _layers[i].nth_element(middle-sub_middle);
       }
 
       private:
@@ -158,7 +210,7 @@
       std::vector<BinHistogram<V,bin_size, N - bin_size, false>> _layers;
 
       public:
-      unsigned _max;
+      //unsigned _max;
 
       template<typename a, unsigned b, unsigned c, bool d>
       friend struct BinHistogram;
@@ -179,17 +231,38 @@
         , _max(0)
         {}
 
-        void inc(V val_index)
+        void inc(V val_index, unsigned num=1)
         {
-          ++(*this)[val_index];
-          ++_max;
+          (*this)[val_index] += num;
+          _max += num;
         }
 
-        void dec(V val_index)
+        void dec(V val_index, unsigned num=1)
         {
-          --(*this)[val_index];
-          --_max;
+          (*this)[val_index] -= num;
+          _max -= num;
         }
+
+      void operator-=(const BinHistogram<V, bin_size>& c)
+      {
+        for(unsigned i=0; i < _final_layer.size(); ++i)
+          _final_layer[i] -= c._final_layer[i];
+        _max -= c._max;
+      }
+
+      void operator+=(const BinHistogram<V, bin_size>& c)
+      {
+        for(unsigned i=0; i < _final_layer.size(); ++i)
+          _final_layer[i] += c._final_layer[i];
+        _max += c._max;
+      }
+
+      void clear()
+      {
+        for(unsigned i=0; i < _final_layer.size(); ++i)
+          _final_layer[i] = 0;
+        _max =0;
+      }
 
         V median() const
         {
@@ -209,9 +282,9 @@
 
         V nth_element(unsigned middle) const
         {
-          unsigned i=0, sum = 0;
-          middle -= _final_layer[i];
-          while(sum < middle)
+          unsigned i=0, sum = _final_layer[0];
+          //middle -= _final_layer[i];
+          while(sum <= middle)
           {
             ++i;
             assert(i < _final_layer.size());
@@ -221,12 +294,12 @@
         }
 
 
+
+        protected:
         unsigned& operator[](V val_index)
         {
           return _final_layer[val_index-_start_index];
         }
-
-        protected:
         V _start_index;
         std::vector<unsigned> _final_layer;
 
@@ -255,3 +328,4 @@
   }
 
 # endif
+
